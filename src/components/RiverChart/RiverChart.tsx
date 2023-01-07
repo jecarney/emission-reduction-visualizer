@@ -1,14 +1,14 @@
 import React, { FC, useState } from "react";
-import "./Individual.css";
+import "./RiverChart.css";
 
 type StripeConfig = {
   color: string;
   width: number;
 };
 
-type IndividualProps = {};
+type RiverChartProps = {};
 
-const Individual: React.FC<IndividualProps> = () => {
+const RiverChart: React.FC<RiverChartProps> = () => {
   const [stripes, setStripes] = useState([
     { color: "#2e3b51", width: 10 },
     { color: "#495d71", width: 20 },
@@ -55,11 +55,13 @@ const Individual: React.FC<IndividualProps> = () => {
               height: stripe.width,
               background: stripe.color,
             }}
-          />
+          >
+            hi am i sideways
+          </div>
         ))}
       </div>
     </div>
   );
 };
 
-export default Individual;
+export default RiverChart;
