@@ -1,6 +1,8 @@
 export interface Stripe {
   color: string;
   width: number;
+  value: number;
+  description: string;
 }
 
 export interface StripeGroup {

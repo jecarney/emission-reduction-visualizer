@@ -1,13 +1,31 @@
-import React, { FC, useState } from "react";
+import React from "react";
+import { Breakdown } from "../../models/breakdown.type";
 import { StripeGroup } from "../../models/stripe.interface";
 import "./RiverChart.css";
 
-type RiverChartProps = { stripeGroup: StripeGroup };
+type RiverChartProps = {
+  stripeGroup: StripeGroup;
+  breakdown: Breakdown;
+  total?: number;
+  percent?: number;
+};
 
-const RiverChart: React.FC<RiverChartProps> = ({ stripeGroup }) => {
+const RiverChart: React.FC<RiverChartProps> = ({
+  stripeGroup,
+  breakdown,
+  percent,
+  total,
+}) => {
   return (
     <div className="riverchart-wrapper">
       <div className="riverchart__river">
+        {breakdown === "percent" && (
+          <p>
+            total: {total} megatonnes
+            {stripeGroup.stripeType === "reduction" &&
+              `, ${percent}% of emissions covered`}
+          </p>
+        )}
         {stripeGroup.stripes.map((stripe, index) => (
           <div
             className={`riverchart__river__stripe riverchart__river__stripe--${stripeGroup.stripeType}`}
@@ -17,7 +35,11 @@ const RiverChart: React.FC<RiverChartProps> = ({ stripeGroup }) => {
               background: stripe.color,
             }}
           >
-            <p>hi am i sideways</p>
+            {breakdown === "categorized" && (
+              <p>
+                {stripe.description} {stripe.value} megatonnes
+              </p>
+            )}
           </div>
         ))}
       </div>
