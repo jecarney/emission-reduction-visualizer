@@ -1,7 +1,33 @@
-.graphic-wrapper {
-  border: 5px dotted grey;
+.riverchart-wrapper {
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.riverchart__river {
+  display: flex;
+  flex-direction: column;
+  transform: rotate(45deg);
+  width: 100%;
+  border: 2px dotted white;
+}
+
+.riverchart__river__stripe {
+  display: flex;
+  justify-content: center;
+}
+
+.riverchart__river__stripe--emission {
+  opacity: 0.3;
+}
+
+.riverchart__river__stripe > p {
+  margin: 0;
 }
