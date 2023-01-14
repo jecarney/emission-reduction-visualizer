@@ -1,6 +1,5 @@
-import React, { FC } from "react";
-import { Stripe, StripeGroup } from "../../models/stripe.interface";
-import Canada from "../Canada/Canada";
+import { FC } from "react";
+import { StripeGroup } from "../../models/stripe.interface";
 import RiverChart from "../RiverChart/RiverChart";
 import "./ChartLayout.css";
 

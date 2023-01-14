@@ -1,8 +1,8 @@
-import Canada from "./components/Canada/Canada";
+import ChartConfig from "./components/ChartConfig/ChartConfig";
 import "./App.css";
 
 const App = () => {
-  return <Canada />;
+  return <ChartConfig />;
 };
 
 export default App;

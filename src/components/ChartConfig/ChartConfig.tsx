@@ -1,11 +1,11 @@
 import React, { FC, Fragment } from "react";
 import ChartLayout from "../ChartLayout/ChartLayout";
 import { StripeGroup, StripeType } from "../../models/stripe.interface";
-import "./Canada.css";
+import "./ChartConfig.css";
 
-interface CanadaProps {}
+interface ChartConfigProps {}
 
-const Canada: FC<CanadaProps> = () => {
+const ChartConfig: FC<ChartConfigProps> = () => {
   const reductions: StripeGroup = {
     stripeType: "reduction",
     stripes: [
@@ -25,7 +25,7 @@ const Canada: FC<CanadaProps> = () => {
   };
 
   const info =
-    "Since 2015 and the signing of the Paris Agreement, Canada adopted 2005 as the base year for its GHG emission reduction target. In 2021, Canada committed to reduce its GHG emissions by 40‑45 percent below 2005 levels by 2030. (https://www.canada.ca/en/environment-climate-change/services/environmental-indicators/greenhouse-gas-emissions.html). 2005 - 741 mt || 2020 - 672 mt || goal (calculated by me, need to check: => * .45 = **333.45** => canada emissions reduction target - 408 mt)";
+    "Since 2015 and the signing of the Paris Agreement, ChartConfig adopted 2005 as the base year for its GHG emission reduction target. In 2021, ChartConfig committed to reduce its GHG emissions by 40‑45 percent below 2005 levels by 2030. (https://www.canada.ca/en/environment-climate-change/services/environmental-indicators/greenhouse-gas-emissions.html). 2005 - 741 mt || 2020 - 672 mt || goal (calculated by me, need to check: => * .45 = **333.45** => canada emissions reduction target - 408 mt)";
   return (
     <Fragment>
       <ChartLayout reductions={reductions} info={info} emissions={emissions} />
@@ -33,4 +33,4 @@ const Canada: FC<CanadaProps> = () => {
   );
 };
 
-export default Canada;
+export default ChartConfig;
