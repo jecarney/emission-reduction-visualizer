@@ -1,6 +1,6 @@
-import React, { FC } from "react";
-import { StripeType, Stripe } from "../../../models/stripe.interface";
-import "./Stripe.css";
+import React, { FC } from 'react';
+import { StripeType, Stripe } from '../../../models/stripe.interface';
+import './Stripe.css';
 
 interface StripeProps {
   children: React.ReactNode | React.ReactNode[];

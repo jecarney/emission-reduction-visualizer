@@ -1,1 +1,1 @@
-export type Breakdown = "percent" | "categorized";
+export type Breakdown = 'percent' | 'categorized';

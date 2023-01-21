@@ -1,6 +1,6 @@
-import React, { lazy, Suspense } from "react";
+import React, { lazy, Suspense } from 'react';
 
-const LazyChartConfig = lazy(() => import("./ChartConfig"));
+const LazyChartConfig = lazy(() => import('./ChartConfig'));
 
 const ChartConfig = (
   props: JSX.IntrinsicAttributes & { children?: React.ReactNode }

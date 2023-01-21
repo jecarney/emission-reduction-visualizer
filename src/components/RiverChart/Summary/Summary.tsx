@@ -1,8 +1,8 @@
-import React, { FC, Fragment } from "react";
-import styles from "./Summary.css";
-import { Breakdown } from "../../../models/breakdown.type";
-import { StripeGroup } from "../../../models/stripe.interface";
-import Stripe from "../Stripe/Stripe";
+import React, { FC, Fragment } from 'react';
+import styles from './Summary.css';
+import { Breakdown } from '../../../models/breakdown.type';
+import { StripeGroup } from '../../../models/stripe.interface';
+import Stripe from '../Stripe/Stripe';
 
 interface SummaryProps {
   breakdown: Breakdown;
@@ -18,16 +18,16 @@ const Summary: FC<SummaryProps> = ({
   percent,
 }) => (
   <Fragment>
-    {breakdown === "percent" && (
+    {breakdown === 'percent' && (
       <p>
         total: {total} megatonnes
-        {stripeGroup.stripeType === "reduction" &&
+        {stripeGroup.stripeType === 'reduction' &&
           `, ${percent}% of emissions covered`}
       </p>
     )}
     {stripeGroup.stripes.map((stripe, index) => (
       <Stripe stripe={stripe} stripeType={stripeGroup.stripeType} key={index}>
-        {breakdown === "categorized" && (
+        {breakdown === 'categorized' && (
           <p>
             {stripe.description} {stripe.value} megatonnes
           </p>

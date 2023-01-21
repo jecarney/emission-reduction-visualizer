@@ -1,8 +1,8 @@
-import { FC } from "react";
-import { Breakdown } from "../../models/breakdown.type";
-import { StripeGroup } from "../../models/stripe.interface";
-import RiverChart from "../RiverChart/RiverChart";
-import "./ChartLayout.css";
+import { FC } from 'react';
+import { Breakdown } from '../../models/breakdown.type';
+import { StripeGroup } from '../../models/stripe.interface';
+import RiverChart from '../RiverChart/RiverChart';
+import './ChartLayout.css';
 
 interface ChartLayoutProps {
   emissions: { stripeGroup: StripeGroup; total: number };

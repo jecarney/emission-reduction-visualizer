@@ -1,6 +1,6 @@
-import React, { lazy, Suspense } from "react";
+import React, { lazy, Suspense } from 'react';
 
-const LazyRiverChart = lazy(() => import("./RiverChart"));
+const LazyRiverChart = lazy(() => import('./RiverChart'));
 
 const RiverChart = (
   props: JSX.IntrinsicAttributes & { children?: React.ReactNode }
