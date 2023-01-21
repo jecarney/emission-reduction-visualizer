@@ -61,7 +61,7 @@ const ChartConfig: FC<ChartConfigProps> = () => {
         }}
         info={info}
         emissions={{ stripeGroup: emissions, total: total(emissions) }}
-        breakdown="categorized"
+        breakdown="percent"
       />
     </Fragment>
   );

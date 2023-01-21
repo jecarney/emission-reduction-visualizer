@@ -17,16 +17,3 @@
   width: 100%;
   border: 2px dotted white;
 }
-
-.riverchart__river__stripe {
-  display: flex;
-  justify-content: center;
-}
-
-.riverchart__river__stripe--emission {
-  opacity: 0.3;
-}
-
-.riverchart__river__stripe > p {
-  margin: 0;
-}
