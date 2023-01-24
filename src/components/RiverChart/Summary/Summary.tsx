@@ -17,11 +17,12 @@ const Summary: FC<SummaryProps> = ({
   stripeGroup,
   percent,
 }) => (
-  <Fragment>
+  <>
     {breakdown === 'percent' && (
       <p>
         total: {total} megatonnes
         {stripeGroup.stripeType === 'reduction' &&
+          percent &&
           `, ${percent}% of emissions covered`}
       </p>
     )}
@@ -34,7 +35,7 @@ const Summary: FC<SummaryProps> = ({
         )}
       </Stripe>
     ))}
-  </Fragment>
+  </>
 );
 
 export default Summary;

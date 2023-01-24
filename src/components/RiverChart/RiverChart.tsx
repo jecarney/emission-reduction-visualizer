@@ -1,32 +1,14 @@
-import React from 'react';
-import { Breakdown } from '../../models/breakdown.type';
-import { StripeGroup } from '../../models/stripe.interface';
+import React, { PropsWithChildren } from 'react';
 import './RiverChart.css';
-import Summary from './Summary/Summary';
 
-interface RiverChartProps {
-  stripeGroup: StripeGroup;
-  breakdown: Breakdown;
-  total?: number;
-  percent?: number;
-}
+interface RiverChartProps {}
 
-const RiverChart: React.FC<RiverChartProps> = function ({
-  stripeGroup,
-  breakdown,
-  percent = 0,
-  total = 0,
+const RiverChart: React.FC<PropsWithChildren<RiverChartProps>> = function ({
+  children,
 }) {
   return (
     <div className="riverchart-wrapper">
-      <div className="riverchart__river">
-        <Summary
-          stripeGroup={stripeGroup}
-          breakdown={breakdown}
-          percent={percent}
-          total={total}
-        />
-      </div>
+      <div className="riverchart__river">{children}</div>
     </div>
   );
 };

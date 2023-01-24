@@ -1,4 +1,5 @@
 export interface Stripe {
+  id: number;
   color: string;
   width: number;
   value: number;
@@ -10,4 +11,4 @@ export interface StripeGroup {
   stripeType: StripeType;
 }
 
-export type StripeType = "emission" | "reduction";
+export type StripeType = 'emission' | 'reduction';
