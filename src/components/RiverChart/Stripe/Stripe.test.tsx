@@ -1,6 +1,4 @@
-import React from 'react';
 import ReactDOM from 'react-dom';
-import StripeConfig from './Stripe';
 
 it('It should mount', () => {
   const div = document.createElement('div');

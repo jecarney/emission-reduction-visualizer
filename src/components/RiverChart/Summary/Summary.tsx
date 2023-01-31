@@ -1,4 +1,4 @@
-import React, { FC, Fragment } from 'react';
+import { FC } from 'react';
 import { StripeGroup } from '../../../models/stripe.interface';
 import Stripe from '../Stripe/Stripe';
 

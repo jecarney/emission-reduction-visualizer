@@ -1,4 +1,4 @@
-import React, { FC, PropsWithChildren } from 'react';
+import { FC, PropsWithChildren } from 'react';
 import './RiverChart.css';
 
 const RiverChart: FC<PropsWithChildren> = function ({ children }) {
