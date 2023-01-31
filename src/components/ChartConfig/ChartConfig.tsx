@@ -60,8 +60,8 @@ const ChartConfig: FC<ChartConfigProps> = () => {
     ],
   };
 
-  const [reductions, setReductions] = useState(initialReductions);
-  const [emissions, setEmissions] = useState(initialEmissions);
+  const [reductionsState, setReductions] = useState(initialReductions);
+  const [emissionsState, setEmissions] = useState(initialEmissions);
 
   const info =
     'Since 2015 and the signing of the Paris Agreement, ChartConfig adopted 2005 as the base year for its GHG emission reduction target. In 2021, ChartConfig committed to reduce its GHG emissions by 40‑45 percent below 2005 levels by 2030. (https://www.canada.ca/en/environment-climate-change/services/environmental-indicators/greenhouse-gas-emissions.html). 2005 - 741 mt || 2020 - 672 mt || goal (calculated by me, need to check: => * .45 = **333.45** => canada emissions reduction target - 408 mt)';
@@ -76,13 +76,13 @@ const ChartConfig: FC<ChartConfigProps> = () => {
   return (
     <ChartLayout
       reductions={{
-        stripeGroup: reductions,
-        total: total(reductions),
-        percent: (total(reductions) / total(emissions)) * 100,
+        stripeGroup: reductionsState,
+        total: total(reductionsState),
+        percent: (total(reductionsState) / total(emissionsState)) * 100,
       }}
       info={info}
-      emissions={{ stripeGroup: emissions, total: total(emissions) }}
-      breakdown="percent"
+      emissions={{ stripeGroup: emissionsState, total: total(emissionsState) }}
+      chartType="summary"
     />
   );
 };
