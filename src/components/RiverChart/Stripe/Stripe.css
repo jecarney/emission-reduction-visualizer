@@ -4,7 +4,12 @@
 }
 
 .riverchart__river__stripe--emission {
-  opacity: 0.3;
+  position: relative;
+}
+
+.riverchart__river__stripe--reduction {
+  position: absolute;
+  width: 100%;
 }
 
 .riverchart__river__stripe > p {

@@ -1,4 +1,4 @@
-export interface Stripe {
+export interface StripeConfig {
   id: number;
   color: string;
   width: number;
@@ -7,7 +7,7 @@ export interface Stripe {
 }
 
 export interface StripeGroup {
-  stripes: Stripe[];
+  stripes: StripeConfig[];
   stripeType: StripeType;
 }
 

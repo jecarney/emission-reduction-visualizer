@@ -1,11 +1,7 @@
-import React, { PropsWithChildren } from 'react';
+import React, { FC, PropsWithChildren } from 'react';
 import './RiverChart.css';
 
-interface RiverChartProps {}
-
-const RiverChart: React.FC<PropsWithChildren<RiverChartProps>> = function ({
-  children,
-}) {
+const RiverChart: FC<PropsWithChildren> = function ({ children }) {
   return (
     <div className="riverchart-wrapper">
       <div className="riverchart__river">{children}</div>

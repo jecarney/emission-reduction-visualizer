@@ -5,19 +5,17 @@ import {
   Radio,
   RadioGroup,
 } from '@mui/material';
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import { ChartType } from '../../../models/chart-type.type';
 
 interface ChartTypeChoiceProps {
   onSelect: (arg: ChartType) => void;
+  chartType: ChartType;
 }
 
-const ChartTypeChoice: FC<ChartTypeChoiceProps> = ({ onSelect }) => {
-  const [chartType, setValue] = useState<ChartType>('summary');
-
+const ChartTypeChoice: FC<ChartTypeChoiceProps> = ({ onSelect, chartType }) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const choice = (event.target as HTMLInputElement).value as ChartType;
-    setValue(choice);
     onSelect(choice);
   };
 

@@ -1,6 +1,6 @@
-import React, { FC, Fragment, useState } from 'react';
+import { FC, useState } from 'react';
+import { StripeGroup } from '../../models/stripe.interface';
 import ChartLayout from '../ChartLayout/ChartLayout';
-import { StripeGroup, StripeType } from '../../models/stripe.interface';
 import './ChartConfig.css';
 
 interface ChartConfigProps {}
@@ -11,21 +11,21 @@ const ChartConfig: FC<ChartConfigProps> = () => {
     stripes: [
       {
         id: 1,
-        color: '#2e3b51',
+        color: 'rgb(46, 59, 81)',
         width: 10,
         value: 10,
         description: 'oil and gas efficiencies',
       },
       {
         id: 2,
-        color: '#495d71',
+        color: 'rgb(73, 93, 113)',
         width: 20,
         value: 20,
         description: 'increased public transit',
       },
       {
         id: 3,
-        color: 'grey',
+        color: 'rgb(104,104,104)',
         width: 30,
         value: 30,
         description: 'regenerative soil practices',
@@ -37,22 +37,22 @@ const ChartConfig: FC<ChartConfigProps> = () => {
     stripeType: 'emission',
     stripes: [
       {
-        id: 4,
-        color: '#2e3b51',
+        id: 1,
+        color: 'rgba(46, 59, 81, 0.3)',
         width: 40,
         value: 40,
         description: 'oil and gas',
       },
       {
-        id: 5,
-        color: '#495d71',
+        id: 2,
+        color: 'rgba(73, 93, 113, 0.3)',
         width: 60,
         value: 60,
         description: 'transportation',
       },
       {
-        id: 6,
-        color: 'grey',
+        id: 3,
+        color: 'rgba(104,104,104, 0.3)',
         width: 200,
         value: 200,
         description: 'agriculture',
