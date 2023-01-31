@@ -34,7 +34,9 @@
           {
             "endOfLine": "auto"
           }
-        ]
+        ],
+        "@typescript-eslint/strict-boolean-expressions": "off",
+        "react/react-in-jsx-scope": "off"
       }
     }
   ],
