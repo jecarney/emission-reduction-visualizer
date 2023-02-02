@@ -12,16 +12,10 @@ const Summary: FC<SummaryProps> = ({ total, stripeGroup, percent }) => (
   <>
     <p>
       total: {total} megatonnes
-      {stripeGroup.stripeType === 'reduction' &&
-        percent &&
-        `, ${percent}% of emissions covered`}
+      {percent && `, ${percent}% of emissions covered`}
     </p>
     {stripeGroup.stripes.map((stripe) => (
-      <Stripe
-        stripe={stripe}
-        stripeType={stripeGroup.stripeType}
-        key={stripe.id}
-      />
+      <Stripe stripe={stripe} key={stripe.id} />
     ))}
   </>
 );

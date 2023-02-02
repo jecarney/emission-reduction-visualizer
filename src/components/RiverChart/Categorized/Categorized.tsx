@@ -20,7 +20,7 @@ const Categorized: FC<CategorizedProps> = ({ emissions, reductions }) => {
       {merged.map((stripePair) => {
         const { emission, reduction } = stripePair;
         return (
-          <Stripe stripe={emission} stripeType="emission" key={emission.id}>
+          <Stripe stripe={emission} stripeType="background" key={emission.id}>
             {!reduction && (
               <p>
                 {emission.description} {emission.value} megatonnes
@@ -29,7 +29,7 @@ const Categorized: FC<CategorizedProps> = ({ emissions, reductions }) => {
             {reduction && (
               <Stripe
                 stripe={reduction}
-                stripeType="reduction"
+                stripeType="foreground"
                 key={reduction.id}
               >
                 <p>

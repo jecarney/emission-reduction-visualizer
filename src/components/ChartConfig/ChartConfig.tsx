@@ -3,11 +3,8 @@ import { StripeGroup } from '../../models/stripe.interface';
 import ChartLayout from '../ChartLayout/ChartLayout';
 import './ChartConfig.css';
 
-interface ChartConfigProps {}
-
-const ChartConfig: FC<ChartConfigProps> = () => {
+const ChartConfig: FC = () => {
   const initialReductions: StripeGroup = {
-    stripeType: 'reduction',
     stripes: [
       {
         id: 1,
@@ -34,7 +31,6 @@ const ChartConfig: FC<ChartConfigProps> = () => {
   };
 
   const initialEmissions: StripeGroup = {
-    stripeType: 'emission',
     stripes: [
       {
         id: 1,
@@ -82,7 +78,6 @@ const ChartConfig: FC<ChartConfigProps> = () => {
       }}
       info={info}
       emissions={{ stripeGroup: emissionsState, total: total(emissionsState) }}
-      chartType="summary"
     />
   );
 };

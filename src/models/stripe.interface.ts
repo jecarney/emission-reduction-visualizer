@@ -8,7 +8,6 @@ export interface StripeConfig {
 
 export interface StripeGroup {
   stripes: StripeConfig[];
-  stripeType: StripeType;
 }
 
-export type StripeType = 'emission' | 'reduction';
+export type StripeType = 'background' | 'foreground';
