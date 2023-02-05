@@ -1,11 +1,11 @@
 import { FC, useState } from 'react';
+import SECTORS from '../../../Sector/sectors.const';
 import ChartLayout from '../ChartLayout/ChartLayout';
 import {
   ReductionsStripeGroup,
   StripeConfig,
   StripeGroup,
 } from '../RiverChart/Stripe/stripe.model';
-import SECTORS from '../Sector/sectors.const';
 import './ChartConfig.css';
 
 const ChartConfig: FC = () => {

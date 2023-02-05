@@ -1,14 +1,17 @@
 import { FC, useState } from 'react';
+import SECTORS from '../../../Sector/sectors.const';
 import { ChartType } from '../ChartTypeChoice/chart-type.model';
 import ChartTypeChoice from '../ChartTypeChoice/ChartTypeChoice/ChartTypeChoice';
 import RiverChart from '../RiverChart/RiverChart';
-import { StripeGroup } from '../RiverChart/Stripe/stripe.model';
-import SECTORS from '../Sector/sectors.const';
+import {
+  ReductionsStripeGroup,
+  StripeGroup,
+} from '../RiverChart/Stripe/stripe.model';
 import './ChartLayout.css';
 
 interface ChartLayoutProps {
   emissions: StripeGroup;
-  reductions: StripeGroup;
+  reductions: ReductionsStripeGroup;
   info: string;
 }
 
@@ -19,7 +22,9 @@ const ChartLayout: FC<ChartLayoutProps> = ({ emissions, reductions, info }) => {
     setChartType(selectedChartType);
   };
 
-  const summary = (rawStripeGroup: StripeGroup): StripeGroup => {
+  const summary = (
+    rawStripeGroup: StripeGroup | ReductionsStripeGroup
+  ): StripeGroup | ReductionsStripeGroup => {
     const total = rawStripeGroup.stripes.reduce((sum, stripe) => {
       return sum + stripe.value;
     }, 0);
@@ -36,9 +41,9 @@ const ChartLayout: FC<ChartLayoutProps> = ({ emissions, reductions, info }) => {
     };
   };
 
-  const emissionsSummary = summary(emissions);
+  const emissionsSummary = summary(emissions) as StripeGroup;
 
-  const reductionSummary = summary(reductions);
+  const reductionSummary = summary(reductions) as ReductionsStripeGroup;
 
   // const [size, setSize] = <DOMRectReadOnly></DOMRectReadOnly>useState();
 

@@ -1,11 +1,11 @@
 import { FC } from 'react';
 import './RiverChart.css';
 import Stripe from './Stripe/Stripe';
-import { StripeGroup } from './Stripe/stripe.model';
+import { ReductionsStripeGroup, StripeGroup } from './Stripe/stripe.model';
 
 interface RiverChartProps {
   emissions: StripeGroup;
-  reductions: StripeGroup;
+  reductions: ReductionsStripeGroup;
 }
 
 const RiverChart: FC<RiverChartProps> = ({ emissions, reductions }) => {
