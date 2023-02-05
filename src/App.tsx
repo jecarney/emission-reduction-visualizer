@@ -1,9 +1,8 @@
-import React from 'react';
 import { ThemeProvider } from '@emotion/react';
 import { CssBaseline } from '@mui/material';
 
-import ChartConfig from './components/ChartConfig/ChartConfig';
 import './App.css';
+import ChartConfig from './app/Chart/ChartConfig/ChartConfig';
 import theme from './themes/theme';
 
 const App = (): JSX.Element => {

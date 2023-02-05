@@ -1,8 +1,0 @@
-import ReactDOM from 'react-dom';
-import Categorized from './Categorized';
-
-it('It should mount', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<Categorized />, div);
-  ReactDOM.unmountComponentAtNode(div);
-});

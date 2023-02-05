@@ -6,7 +6,7 @@ import {
   RadioGroup,
 } from '@mui/material';
 import React, { FC } from 'react';
-import { ChartType } from '../../../models/chart-type.type';
+import { ChartType } from '../chart-type.model';
 
 interface ChartTypeChoiceProps {
   onSelect: (arg: ChartType) => void;

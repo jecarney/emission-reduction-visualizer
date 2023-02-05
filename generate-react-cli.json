@@ -5,7 +5,7 @@
   "testLibrary": "jest",
   "component": {
     "default": {
-      "path": "src/components",
+      "path": "src/app",
       "withStyle": true,
       "withTest": true,
       "withStory": false,

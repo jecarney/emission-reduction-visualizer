@@ -3,11 +3,11 @@
   justify-content: center;
 }
 
-.riverchart__river__stripe--background {
+.riverchart__river__stripe--emission {
   position: relative;
 }
 
-.riverchart__river__stripe--foreground {
+.riverchart__river__stripe--reduction {
   position: absolute;
   width: 100%;
 }
