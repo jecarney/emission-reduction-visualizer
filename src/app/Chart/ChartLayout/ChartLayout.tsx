@@ -19,36 +19,26 @@ const ChartLayout: FC<ChartLayoutProps> = ({ emissions, reductions, info }) => {
     setChartType(selectedChartType);
   };
 
-  // TODO: functions
-  const emissionsSum = emissions.stripes.reduce((sum, emissionStripe) => {
-    return sum + emissionStripe.value;
-  }, 0);
+  const summary = (rawStripeGroup: StripeGroup): StripeGroup => {
+    const total = rawStripeGroup.stripes.reduce((sum, stripe) => {
+      return sum + stripe.value;
+    }, 0);
 
-  const emissionSummaryStripe = {
-    id: 100,
-    value: emissionsSum,
-    sector: SECTORS.TOTAL,
+    const summaryStripe = {
+      id: 100,
+      value: total,
+      sector: SECTORS.TOTAL,
+    };
+
+    return {
+      ...rawStripeGroup,
+      stripes: [summaryStripe],
+    };
   };
 
-  const emissionsSummary: StripeGroup = {
-    ...emissions,
-    stripes: [emissionSummaryStripe],
-  };
+  const emissionsSummary = summary(emissions);
 
-  const reductionsSum = reductions.stripes.reduce((sum, reductionStripe) => {
-    return sum + reductionStripe.value;
-  }, 0);
-
-  const reductionSummaryStripe = {
-    id: 200,
-    value: reductionsSum,
-    sector: SECTORS.TOTAL,
-  };
-
-  const reductionSummary: StripeGroup = {
-    ...reductions,
-    stripes: [reductionSummaryStripe],
-  };
+  const reductionSummary = summary(reductions);
 
   // const [size, setSize] = <DOMRectReadOnly></DOMRectReadOnly>useState();
 
