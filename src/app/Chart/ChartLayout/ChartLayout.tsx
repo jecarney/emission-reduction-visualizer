@@ -41,9 +41,13 @@ const ChartLayout: FC<ChartLayoutProps> = ({ emissions, reductions, info }) => {
     };
   };
 
-  const emissionsSummary = summary(emissions) as StripeGroup;
+  const formatForDisplay = <T extends StripeGroup | ReductionsStripeGroup>(
+    stripes: T
+  ): T => (chartType === 'summary' ? (summary(stripes) as T) : stripes);
 
-  const reductionSummary = summary(reductions) as ReductionsStripeGroup;
+  const displayEmissions = formatForDisplay<StripeGroup>(emissions);
+
+  const displayReductions = formatForDisplay<ReductionsStripeGroup>(reductions);
 
   // const [size, setSize] = <DOMRectReadOnly></DOMRectReadOnly>useState();
 
@@ -59,16 +63,10 @@ const ChartLayout: FC<ChartLayoutProps> = ({ emissions, reductions, info }) => {
         <ChartTypeChoice onSelect={onSelect} chartType={chartType} />
       </div>
       <div className="main__chart-wrapper">
-        {chartType === 'summary' && (
-          <RiverChart
-            emissions={emissionsSummary}
-            reductions={reductionSummary}
-          />
-        )}
-
-        {chartType === 'categorized' && (
-          <RiverChart emissions={emissions} reductions={reductions} />
-        )}
+        <RiverChart
+          emissions={displayEmissions}
+          reductions={displayReductions}
+        />
       </div>
       <div className="main__aside"> main aside</div>
       <div className="main__footer">main footer</div>
