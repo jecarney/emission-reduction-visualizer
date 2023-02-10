@@ -48,8 +48,10 @@ const RiverChart: FC<RiverChartProps> = ({
                 height={scaleToWrapper(stripePair.emission.value)}
               >
                 <p className="riverchart__river__stripe-pair-info">
-                  {emission.sector.name} emissions: {emission.value} mt{' '}
-                  {stripeType}: {delta.value} mt
+                  {emission.sector.name} emissions: {emission.value} mt
+                  {delta.value! === 0
+                    ? ', no change'
+                    : ` ${stripeType} : ${delta.value} mt`}
                 </p>
                 {delta && delta.value! !== 0 && (
                   <Stripe
