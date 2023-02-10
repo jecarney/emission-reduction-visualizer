@@ -4,34 +4,36 @@ import { ChartType } from '../ChartTypeChoice/chart-type.model';
 import ChartTypeChoice from '../ChartTypeChoice/ChartTypeChoice/ChartTypeChoice';
 import RiverChart from '../RiverChart/RiverChart';
 import {
-  ReductionsStripeGroup,
+  DeltasStripeGroup,
   StripeGroup,
 } from '../RiverChart/Stripe/stripe.model';
 import './ChartLayout.css';
 
 interface ChartLayoutProps {
   emissions: StripeGroup;
-  reductions: ReductionsStripeGroup;
+  deltas: DeltasStripeGroup;
   info: string;
 }
 
-const ChartLayout: FC<ChartLayoutProps> = ({ emissions, reductions, info }) => {
+const ChartLayout: FC<ChartLayoutProps> = ({ emissions, deltas, info }) => {
   const [chartType, setChartType] = useState<ChartType>('categorized');
 
   const onSelect = (selectedChartType: ChartType): void => {
     setChartType(selectedChartType);
   };
 
-  const summary = (
-    rawStripeGroup: StripeGroup | ReductionsStripeGroup
-  ): StripeGroup | ReductionsStripeGroup => {
-    const total = rawStripeGroup.stripes.reduce((sum, stripe) => {
+  const total = (rawStripeGroup: StripeGroup | DeltasStripeGroup): number => {
+    return rawStripeGroup.stripes.reduce((sum, stripe) => {
       return sum + stripe.value;
     }, 0);
+  };
 
+  const summary = (
+    rawStripeGroup: StripeGroup | DeltasStripeGroup
+  ): StripeGroup | DeltasStripeGroup => {
     const summaryStripe = {
       id: 100,
-      value: total,
+      value: total(rawStripeGroup),
       sector: SECTORS.TOTAL,
     };
 
@@ -41,20 +43,15 @@ const ChartLayout: FC<ChartLayoutProps> = ({ emissions, reductions, info }) => {
     };
   };
 
-  const formatForDisplay = <T extends StripeGroup | ReductionsStripeGroup>(
+  const formatForDisplay = <T extends StripeGroup | DeltasStripeGroup>(
     stripes: T
   ): T => (chartType === 'summary' ? (summary(stripes) as T) : stripes);
 
   const displayEmissions = formatForDisplay<StripeGroup>(emissions);
 
-  const displayReductions = formatForDisplay<ReductionsStripeGroup>(reductions);
+  const displayDeltas = formatForDisplay<DeltasStripeGroup>(deltas);
 
-  // const [size, setSize] = <DOMRectReadOnly></DOMRectReadOnly>useState();
-
-  // useResizeObserver(target, (entry) => {
-  //   // setSize(entry.contentRect);
-  //   console.log('entry', entry);
-  // });
+  const rangeOfValues = total(emissions);
 
   return (
     <div className="main">
@@ -65,7 +62,8 @@ const ChartLayout: FC<ChartLayoutProps> = ({ emissions, reductions, info }) => {
       <div className="main__chart-wrapper">
         <RiverChart
           emissions={displayEmissions}
-          reductions={displayReductions}
+          deltas={displayDeltas}
+          rangeOfValues={rangeOfValues}
         />
       </div>
       <div className="main__aside"> main aside</div>

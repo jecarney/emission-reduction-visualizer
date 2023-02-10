@@ -6,7 +6,7 @@ const theme = {
       primary: 'white',
     },
     background: {
-      default: '#0b505b',
+      default: '#0a605a',
     },
   },
 } as const;

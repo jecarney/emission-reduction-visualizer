@@ -1,30 +1,30 @@
 import { FC, PropsWithChildren } from 'react';
 import './Stripe.css';
-import { StripeConfig } from './stripe.model';
 
-export type StripeType = 'emission' | 'reduction';
+export type StripeType = 'emission' | 'decrease' | 'increase';
 
 interface StripeProps {
   stripeType?: StripeType;
-  stripe: StripeConfig;
-  colour: string;
+  height: number;
 }
 
 const Stripe: FC<PropsWithChildren<StripeProps>> = ({
   children,
   stripeType,
-  stripe,
-  colour,
+  height,
 }) => {
+  const emissionStyle = {
+    height,
+  };
+
+  const deltaStyle = { height };
+
   return (
     <div
       className={`riverchart__river__stripe ${
         stripeType ? `riverchart__river__stripe--${stripeType}` : ''
       }`}
-      style={{
-        height: stripe.value,
-        background: colour,
-      }}
+      style={stripeType === 'emission' ? emissionStyle : deltaStyle}
     >
       {children}
     </div>

@@ -2,7 +2,7 @@ import { FC, useState } from 'react';
 import SECTORS from '../../../Sector/sectors.const';
 import ChartLayout from '../ChartLayout/ChartLayout';
 import {
-  ReductionsStripeGroup,
+  DeltasStripeGroup,
   StripeConfig,
   StripeGroup,
 } from '../RiverChart/Stripe/stripe.model';
@@ -35,47 +35,47 @@ const ChartConfig: FC = () => {
     year: 2020,
   };
 
-  const info = `Reductions are based on `;
+  const info = `Deltas are based on `;
 
-  const reductions = (
+  const deltas = (
     baseEmissions: StripeGroup,
     currentEmissions: StripeGroup
-  ): ReductionsStripeGroup => {
-    const reductionStripes: StripeConfig[] = currentEmissions.stripes.reduce<
+  ): DeltasStripeGroup => {
+    const deltaStripes: StripeConfig[] = currentEmissions.stripes.reduce<
       StripeConfig[]
-    >((reductionsWithMatch, current) => {
+    >((deltasWithMatch, current) => {
       const baseEmission = baseEmissions.stripes.find(
         (base) => base.sector.id === current.sector.id
       );
       if (baseEmission) {
         const id = Math.floor(Math.random() * 100);
-        const difference = baseEmission.value - current.value;
-        const reductionStripe = {
+        const difference = current.value - baseEmission.value;
+        const deltaStripe = {
           id,
           sector: current.sector,
           value: difference,
         };
-        return [...reductionsWithMatch, reductionStripe];
+        return [...deltasWithMatch, deltaStripe];
       }
-      return reductionsWithMatch;
+      return deltasWithMatch;
     }, []);
 
-    const reduction = {
-      stripes: reductionStripes,
+    const delta = {
+      stripes: deltaStripes,
       currentYear: currentEmissions.year,
       baseYear: baseEmissions.year,
     };
-    return reduction;
+    return delta;
   };
 
-  const initialReductions = reductions(baseYearEmissions, currentYearEmissions);
+  const initialDeltas = deltas(baseYearEmissions, currentYearEmissions);
 
-  const [reductionsState, setReductions] = useState(initialReductions);
-  const [currentEmissionsState, setEmissions] = useState(currentYearEmissions);
+  const [deltasState, setDeltas] = useState(initialDeltas);
+  const [currentEmissionsState, setEmissions] = useState(baseYearEmissions);
 
   return (
     <ChartLayout
-      reductions={reductionsState}
+      deltas={deltasState}
       info={info}
       emissions={currentEmissionsState}
     />

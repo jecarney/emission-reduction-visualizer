@@ -5,11 +5,20 @@
 
 .riverchart__river__stripe--emission {
   position: relative;
+  background: linear-gradient(#299089, #238e2742);
+  border-bottom: 3px solid #191f07b3;
 }
 
-.riverchart__river__stripe--reduction {
+.riverchart__river__stripe--decrease {
   position: absolute;
   width: 100%;
+  background: linear-gradient(#c5cb8191, #d3e591);
+}
+.riverchart__river__stripe--increase {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  background: linear-gradient(#9dcb21, #238e2796);
 }
 
 .riverchart__river__stripe > p {

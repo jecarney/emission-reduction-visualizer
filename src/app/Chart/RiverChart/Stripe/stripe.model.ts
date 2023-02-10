@@ -11,7 +11,7 @@ export interface StripeGroup {
   year: number;
 }
 
-export interface ReductionsStripeGroup {
+export interface DeltasStripeGroup {
   stripes: StripeConfig[];
   baseYear: number;
   currentYear: number;

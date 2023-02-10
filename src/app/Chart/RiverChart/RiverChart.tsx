@@ -1,53 +1,66 @@
 import { FC } from 'react';
+import useElementSize from '../../../helpers/useElementSize';
 import './RiverChart.css';
 import Stripe from './Stripe/Stripe';
-import { ReductionsStripeGroup, StripeGroup } from './Stripe/stripe.model';
+import { DeltasStripeGroup, StripeGroup } from './Stripe/stripe.model';
 
 interface RiverChartProps {
   emissions: StripeGroup;
-  reductions: ReductionsStripeGroup;
+  deltas: DeltasStripeGroup;
+  rangeOfValues: number;
 }
 
-const RiverChart: FC<RiverChartProps> = ({ emissions, reductions }) => {
-  const merged = emissions.stripes.map((emission) => {
-    const reductionMatch = reductions.stripes.find(
-      (reduction) => reduction.sector === emission.sector
-    );
-    return { emission, reduction: reductionMatch };
-  });
+const RiverChart: FC<RiverChartProps> = ({
+  emissions,
+  deltas,
+  rangeOfValues,
+}) => {
+  const [boxRef, { height }] = useElementSize();
+
+  const scaleToWrapper = (value: number): number => {
+    const percent = value / rangeOfValues;
+    const result = Math.abs(Math.round(percent * height));
+    return result;
+  };
+
+  const stripePairs = emissions.stripes
+    .map((emission) => {
+      const deltaMatch = deltas.stripes.find(
+        (delta) => delta.sector === emission.sector
+      );
+
+      const delta = { ...deltaMatch };
+      return { emission, delta };
+    })
+    .sort((a, b) => a.emission.value - b.emission.value);
 
   return (
-    <div className="riverchart-wrapper">
+    <div className="riverchart-wrapper" ref={boxRef}>
       <div className="riverchart__river">
-        {merged.map((stripePair) => {
-          const { emission, reduction } = stripePair;
-          return (
-            <Stripe
-              stripe={emission}
-              stripeType="emission"
-              key={emission.id}
-              colour={emission.sector.emissionColour}
-            >
-              {!reduction && (
-                <p>
-                  {emission.sector.name} {emission.value} megatonnes
+        {height > 0 &&
+          stripePairs.map((stripePair) => {
+            const { emission, delta } = stripePair;
+            const stripeType = delta.value! > 0 ? 'increase' : 'decrease';
+            return (
+              <Stripe
+                stripeType="emission"
+                key={emission.id}
+                height={scaleToWrapper(stripePair.emission.value)}
+              >
+                <p className="riverchart__river__stripe-pair-info">
+                  {emission.sector.name} emissions: {emission.value} mt{' '}
+                  {stripeType}: {delta.value} mt
                 </p>
-              )}
-              {reduction && (
-                <Stripe
-                  stripe={reduction}
-                  stripeType="reduction"
-                  key={reduction.id}
-                  colour={emission.sector.reductionColour}
-                >
-                  <p>
-                    {reduction.sector.name} {reduction.value} megatonnes
-                  </p>
-                </Stripe>
-              )}
-            </Stripe>
-          );
-        })}
+                {delta && delta.value! !== 0 && (
+                  <Stripe
+                    stripeType={stripeType}
+                    key={delta.id}
+                    height={scaleToWrapper(stripePair.delta.value!)}
+                  />
+                )}
+              </Stripe>
+            );
+          })}
       </div>
     </div>
   );
