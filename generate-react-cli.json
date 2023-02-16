@@ -1,6 +1,6 @@
 {
   "usesTypeScript": true,
-  "usesCssModule": true,
+  "usesCssModule": false,
   "cssPreprocessor": "css",
   "testLibrary": "jest",
   "component": {
@@ -9,7 +9,7 @@
       "withStyle": true,
       "withTest": true,
       "withStory": false,
-      "withLazy": true
+      "withLazy": false
     }
   }
 }
