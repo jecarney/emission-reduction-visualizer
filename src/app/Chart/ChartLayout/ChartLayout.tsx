@@ -2,11 +2,11 @@ import { FC, useState } from 'react';
 import SECTORS from '../../../Sector/sectors.const';
 import { ChartType } from '../ChartTypeChoice/chart-type.model';
 import ChartTypeChoice from '../ChartTypeChoice/ChartTypeChoice/ChartTypeChoice';
-import RiverChart from '../RiverChart/RiverChart';
 import {
   DeltasStripeGroup,
   StripeGroup,
 } from '../RiverChart/Stripe/stripe.model';
+import EmissionsDeltaSankey from '../Sankey/EmissionsDeltaSankey/EmissionsDeltaSankey';
 import './ChartLayout.css';
 
 interface ChartLayoutProps {
@@ -60,11 +60,12 @@ const ChartLayout: FC<ChartLayoutProps> = ({ emissions, deltas, info }) => {
         <ChartTypeChoice onSelect={onSelect} chartType={chartType} />
       </div>
       <div className="main__chart-wrapper">
-        <RiverChart
+        <EmissionsDeltaSankey />
+        {/* <RiverChart
           emissions={displayEmissions}
           deltas={displayDeltas}
           rangeOfValues={rangeOfValues}
-        />
+        /> */}
       </div>
       <div className="main__aside"> main aside</div>
       <div className="main__footer">main footer</div>
