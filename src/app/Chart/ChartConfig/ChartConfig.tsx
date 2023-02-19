@@ -1,16 +1,16 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import SECTORS from '../../../Sector/sectors.const';
-import ChartLayout from '../ChartLayout/ChartLayout';
 import {
-  DeltasStripeGroup,
-  StripeConfig,
-  StripeGroup,
-} from '../RiverChart/Stripe/stripe.model';
+  ChangeFromBase,
+  EmissionChange,
+  YearOfEmissions,
+} from '../../Emissions/emission.model';
+import ChartLayout from '../ChartLayout/ChartLayout';
 import './ChartConfig.css';
 
 const ChartConfig: FC = () => {
-  const baseYearEmissions: StripeGroup = {
-    stripes: [
+  const baseYearEmissions: YearOfEmissions = {
+    emissionBySector: [
       { id: 1, value: 171, sector: SECTORS.OIL_AND_GAS },
       { id: 2, value: 160, sector: SECTORS.TRANSPORT },
       { id: 2, value: 84, sector: SECTORS.BUILDINGS },
@@ -22,8 +22,8 @@ const ChartConfig: FC = () => {
     year: 2005,
   };
 
-  const currentYearEmissions: StripeGroup = {
-    stripes: [
+  const currentYearEmissions: YearOfEmissions = {
+    emissionBySector: [
       { id: 7, value: 179, sector: SECTORS.OIL_AND_GAS },
       { id: 8, value: 160, sector: SECTORS.TRANSPORT },
       { id: 9, value: 88, sector: SECTORS.BUILDINGS },
@@ -35,51 +35,42 @@ const ChartConfig: FC = () => {
     year: 2020,
   };
 
-  const info = `Deltas are based on `;
+  const info = `Base year: 2005 (hardcoded), emission change based on year 2020 (hardcoded, needs to be possible to input)`;
 
-  const deltas = (
-    baseEmissions: StripeGroup,
-    currentEmissions: StripeGroup
-  ): DeltasStripeGroup => {
-    const deltaStripes: StripeConfig[] = currentEmissions.stripes.reduce<
-      StripeConfig[]
-    >((deltasWithMatch, current) => {
-      const baseEmission = baseEmissions.stripes.find(
-        (base) => base.sector.id === current.sector.id
+  const calculateChange = (
+    baseEmissions: YearOfEmissions,
+    currentEmissions: YearOfEmissions
+  ): ChangeFromBase => {
+    const emissionChanges: EmissionChange[] =
+      currentEmissions.emissionBySector.reduce<EmissionChange[]>(
+        (deltasWithMatch, current) => {
+          const baseEmission = baseEmissions.emissionBySector.find(
+            (base) => base.sector.id === current.sector.id
+          );
+          if (baseEmission) {
+            const difference = current.value - baseEmission.value;
+            const emissionChange: EmissionChange = {
+              delta: difference,
+              baseEmission,
+            };
+            return [...deltasWithMatch, emissionChange];
+          }
+          return deltasWithMatch;
+        },
+        []
       );
-      if (baseEmission) {
-        const id = Math.floor(Math.random() * 100);
-        const difference = current.value - baseEmission.value;
-        const deltaStripe = {
-          id,
-          sector: current.sector,
-          value: difference,
-        };
-        return [...deltasWithMatch, deltaStripe];
-      }
-      return deltasWithMatch;
-    }, []);
 
-    const delta = {
-      stripes: deltaStripes,
+    const changeFromBase = {
+      changes: emissionChanges,
       currentYear: currentEmissions.year,
       baseYear: baseEmissions.year,
     };
-    return delta;
+    return changeFromBase;
   };
 
-  const initialDeltas = deltas(baseYearEmissions, currentYearEmissions);
+  const changes = calculateChange(baseYearEmissions, currentYearEmissions);
 
-  const [deltasState, setDeltas] = useState(initialDeltas);
-  const [currentEmissionsState, setEmissions] = useState(baseYearEmissions);
-
-  return (
-    <ChartLayout
-      deltas={deltasState}
-      info={info}
-      emissions={currentEmissionsState}
-    />
-  );
+  return <ChartLayout changeFromBase={changes} info={info} />;
 };
 
 export default ChartConfig;

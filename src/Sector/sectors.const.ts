@@ -1,40 +1,36 @@
 export interface Sector {
-  id: number;
+  id: string;
   name: string;
 }
 
 const SECTORS: Record<string, Sector> = {
   OIL_AND_GAS: {
-    id: 1,
+    id: 'oil-and-gas',
     name: 'Oil and Gas',
   },
   TRANSPORT: {
-    id: 2,
+    id: 'transport',
     name: 'Transport',
   },
   BUILDINGS: {
-    id: 3,
+    id: 'buildings',
     name: 'Buildings',
   },
   ELECTRICITY: {
-    id: 4,
+    id: 'electricity',
     name: 'Electricity',
   },
   HEAVY_INDUSTRY: {
-    id: 5,
+    id: 'heavy-industry',
     name: 'Heavy Industry',
   },
   AGRICULTURE: {
-    id: 6,
+    id: 'agriculture',
     name: 'Agriculture',
   },
   WASTE_AND_OTHERS: {
-    id: 7,
+    id: 'waste-and-others',
     name: 'Waste and others',
-  },
-  TOTAL: {
-    id: 8,
-    name: 'Total',
   },
 };
 
