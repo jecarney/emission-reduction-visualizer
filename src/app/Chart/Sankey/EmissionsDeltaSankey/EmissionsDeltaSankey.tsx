@@ -141,15 +141,23 @@ const EmissionsDeltaSankey: FC<EmissionsDeltaSankeyProps> = ({
     <ResponsiveSankey
       data={data}
       colors={(node) => node.nodeColor}
-      nodeSpacing={1}
-      enableLinkGradient
       sort="input"
+      nodeSpacing={1}
       nodeOpacity={1}
-      linkOpacity={0.9}
-      nodeBorderWidth={1}
-      nodeBorderColor="white"
+      nodeBorderWidth={0}
+      nodeBorderColor="#f5f5dc"
       nodeThickness={25}
       nodeBorderRadius={2}
+      linkOpacity={0.9}
+      enableLinkGradient
+      labelPosition="outside"
+      label={(node) => `${node.id}: ${node.value}`}
+      labelTextColor="#f5f5dc"
+      // theme={{
+      //   fontSize: 14,
+      //   textColor: 'rgba(0, 0, 0, 1)',
+      //   // background: 'rgba(0, 0, 0, 0.5)',
+      // }}
     />
   );
 };
