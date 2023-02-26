@@ -6,14 +6,19 @@ import {
   RadioGroup,
 } from '@mui/material';
 import React, { FC } from 'react';
-import { ChartType } from '../chart-type.model';
+import { ChartType } from '../../../Chart/chart-type.model';
 
-interface ChartTypeChoiceProps {
+interface RadioGroupProps {
   onSelect: (arg: ChartType) => void;
-  chartType: ChartType;
+  value: string;
+  options: string[];
 }
 
-const ChartTypeChoice: FC<ChartTypeChoiceProps> = ({ onSelect, chartType }) => {
+const RadioGroupFormPart: FC<RadioGroupProps> = ({
+  onSelect,
+  value: chartType,
+  options,
+}) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const choice = (event.target as HTMLInputElement).value as ChartType;
     onSelect(choice);
@@ -28,19 +33,19 @@ const ChartTypeChoice: FC<ChartTypeChoiceProps> = ({ onSelect, chartType }) => {
         value={chartType}
         onChange={handleChange}
       >
-        <FormControlLabel
-          value="summary"
-          control={<Radio sx={{ color: 'text.primary' }} />}
-          label="Summary"
-        />
-        <FormControlLabel
-          value="categorized"
-          control={<Radio sx={{ color: 'text.primary' }} />}
-          label="Categorized"
-        />
+        {options?.map(function (option) {
+          return (
+            <FormControlLabel
+              value={option}
+              control={<Radio sx={{ color: 'text.primary' }} />}
+              label={option}
+              key={option}
+            />
+          );
+        })}
       </RadioGroup>
     </FormControl>
   );
 };
 
-export default ChartTypeChoice;
+export default RadioGroupFormPart;
