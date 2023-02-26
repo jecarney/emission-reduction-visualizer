@@ -158,6 +158,7 @@ const EmissionsDeltaSankey: FC<EmissionsDeltaSankeyProps> = ({
       //   textColor: 'rgba(0, 0, 0, 1)',
       //   // background: 'rgba(0, 0, 0, 0.5)',
       // }}
+      // linkTooltip={(node) => <span>Custom tooltip for link</span>}
     />
   );
 };
