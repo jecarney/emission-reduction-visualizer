@@ -41,48 +41,48 @@ const EmissionsDeltaSankey: FC<EmissionsDeltaSankeyProps> = ({
       };
       nodes = [...nodes, emissionBySectorNode];
 
-      const deltaNodeId = `delta-${sector.id}`;
-      const deltaNode = {
-        id: deltaNodeId,
-        nodeColor: delta < 0 ? reductionGreen : increaseRed,
-      };
-      nodes = [...nodes, deltaNode];
+      // const deltaNodeId = `delta-${sector.id}`;
+      // const deltaNode = {
+      //   id: deltaNodeId,
+      //   nodeColor: delta < 0 ? reductionGreen : increaseRed,
+      // };
+      // nodes = [...nodes, deltaNode];
 
-      const deltaLink = {
-        source: emissionBySectorNode.id,
-        target: deltaNodeId,
-        value: Math.abs(delta),
-        nodeColor: delta < 0 ? reductionGreen : increaseRed,
-      };
+      // const deltaLink = {
+      //   source: emissionBySectorNode.id,
+      //   target: deltaNodeId,
+      //   value: Math.abs(delta),
+      //   nodeColor: delta < 0 ? reductionGreen : increaseRed,
+      // };
       const totalLink = {
-        source: deltaNodeId,
+        source: emissionBySectorNode.id,
         target: delta < 0 ? reductionTotalNode.id : increaseTotalNode.id,
         value: Math.abs(delta),
         nodeColor: delta < 0 ? reductionGreen : increaseRed,
       };
-      links = [...links, deltaLink, totalLink];
+      links = [...links, totalLink];
 
-      const remainingEmissionsBySectorId = `remaining-${sector.id}`;
-      const remainingNode = {
-        id: remainingEmissionsBySectorId,
-        nodeColor: middleBlue,
-      };
-      nodes = [...nodes, remainingNode];
+      // const remainingEmissionsBySectorId = `remaining-${sector.id}`;
+      // const remainingNode = {
+      //   id: remainingEmissionsBySectorId,
+      //   nodeColor: middleBlue,
+      // };
+      // nodes = [...nodes, remainingNode];
 
       const remaining = baseEmission.value + delta;
-      const remainingEmissionsBySectorIdLink = {
-        source: emissionBySectorNode.id,
-        target: remainingEmissionsBySectorId,
-        value: remaining,
-        nodeColor: lightBlue,
-      };
+      // const remainingEmissionsBySectorIdLink = {
+      //   source: emissionBySectorNode.id,
+      //   target: remainingEmissionsBySectorId,
+      //   value: remaining,
+      //   nodeColor: lightBlue,
+      // };
       const remainingTotalLink = {
-        source: remainingEmissionsBySectorId,
+        source: emissionBySectorNode.id,
         target: remainingTotalNode.id,
         value: remaining,
         nodeColor: lightBlue,
       };
-      links = [...links, remainingEmissionsBySectorIdLink, remainingTotalLink];
+      links = [...links, remainingTotalLink];
     });
   //
   const data = { nodes, links };
