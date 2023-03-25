@@ -7,38 +7,23 @@ interface EmissionsDeltaSankeyProps {
   changeFromBase: ChangeFromBase;
 }
 
-const lightBlue = '#A3C1AD';
-const middleBlue = '#5F9EA0';
-const darkBlue = '#007791';
-const reductionGreen = '#74C365';
-const increaseRed = '#A52A2A';
-
 const EmissionsDeltaSankey: FC<EmissionsDeltaSankeyProps> = ({
   changeFromBase,
 }) => {
-  const remainingTotalId = `remaining-total`;
-  const remainingTotalNode = {
-    id: remainingTotalId,
-    nodeColor: lightBlue,
-  };
+  const lightBlue = '#A3C1AD';
+  const middleBlue = '#5F9EA0';
+  const darkBlue = '#007791';
+  const reductionGreen = '#74C365';
+  const increaseRed = '#A52A2A';
 
-  const reductionTotalId = `reductions-total`;
+  const remainingTotalNode = { id: 'remaining-total', nodeColor: lightBlue };
   const reductionTotalNode = {
-    id: reductionTotalId,
+    id: 'reductions-total',
     nodeColor: reductionGreen,
   };
+  const increaseTotalNode = { id: 'increase-total', nodeColor: increaseRed };
 
-  const increaseTotalId = `increase-total`;
-  const increaseTotalNode = {
-    id: increaseTotalId,
-    nodeColor: increaseRed,
-  };
-
-  let nodes: Array<{ id: string; nodeColor: string }> = [
-    reductionTotalNode,
-    remainingTotalNode,
-    increaseTotalNode,
-  ];
+  let nodes = [reductionTotalNode, remainingTotalNode, increaseTotalNode];
   let links: Array<{
     source: string;
     target: string;
@@ -47,67 +32,37 @@ const EmissionsDeltaSankey: FC<EmissionsDeltaSankeyProps> = ({
   }> = [];
 
   changeFromBase.changes
-    .sort((a, b) => {
-      return a.delta - b.delta;
-    })
-    .forEach((change) => {
-      const { baseEmission, delta } = change;
+    .sort((a, b) => a.delta - b.delta)
+    .forEach(({ baseEmission, delta }) => {
       const { sector } = baseEmission;
-      const emissionBySectorId = `emissions-${sector.id}`;
       const emissionBySectorNode = {
-        id: emissionBySectorId,
+        id: `emissions-${sector.id}`,
         nodeColor: darkBlue,
       };
-
       nodes = [...nodes, emissionBySectorNode];
 
       const deltaNodeId = `delta-${sector.id}`;
-      if (delta < 0) {
-        const deltaNode = {
-          id: deltaNodeId,
-          nodeColor: reductionGreen,
-        };
-        nodes = [...nodes, deltaNode];
-        const deltaLink = {
-          source: emissionBySectorId,
-          target: deltaNodeId,
-          value: Math.abs(delta),
-          nodeColor: reductionGreen,
-        };
+      const deltaNode = {
+        id: deltaNodeId,
+        nodeColor: delta < 0 ? reductionGreen : increaseRed,
+      };
+      nodes = [...nodes, deltaNode];
 
-        const reductionTotalLink = {
-          source: deltaNodeId,
-          target: reductionTotalId,
-          value: Math.abs(delta),
-          nodeColor: reductionGreen,
-        };
-
-        links = [...links, deltaLink, reductionTotalLink];
-      } else {
-        const deltaNode = {
-          id: deltaNodeId,
-          nodeColor: increaseRed,
-        };
-        nodes = [...nodes, deltaNode];
-        const deltaLink = {
-          source: emissionBySectorId,
-          target: deltaNodeId,
-          value: Math.abs(delta),
-          nodeColor: increaseRed,
-        };
-
-        const increaseTotalLink = {
-          source: deltaNodeId,
-          target: increaseTotalId,
-          value: Math.abs(delta),
-          nodeColor: increaseRed,
-        };
-
-        links = [...links, deltaLink, increaseTotalLink];
-      }
+      const deltaLink = {
+        source: emissionBySectorNode.id,
+        target: deltaNodeId,
+        value: Math.abs(delta),
+        nodeColor: delta < 0 ? reductionGreen : increaseRed,
+      };
+      const totalLink = {
+        source: deltaNodeId,
+        target: delta < 0 ? reductionTotalNode.id : increaseTotalNode.id,
+        value: Math.abs(delta),
+        nodeColor: delta < 0 ? reductionGreen : increaseRed,
+      };
+      links = [...links, deltaLink, totalLink];
 
       const remainingEmissionsBySectorId = `remaining-${sector.id}`;
-
       const remainingNode = {
         id: remainingEmissionsBySectorId,
         nodeColor: middleBlue,
@@ -115,28 +70,25 @@ const EmissionsDeltaSankey: FC<EmissionsDeltaSankeyProps> = ({
       nodes = [...nodes, remainingNode];
 
       const remaining = baseEmission.value + delta;
-
       const remainingEmissionsBySectorIdLink = {
-        source: emissionBySectorId,
+        source: emissionBySectorNode.id,
         target: remainingEmissionsBySectorId,
         value: remaining,
         nodeColor: lightBlue,
       };
-
       const remainingTotalLink = {
         source: remainingEmissionsBySectorId,
-        target: remainingTotalId,
+        target: remainingTotalNode.id,
         value: remaining,
         nodeColor: lightBlue,
       };
-
-      links = [...links, remainingTotalLink, remainingEmissionsBySectorIdLink];
+      links = [...links, remainingEmissionsBySectorIdLink, remainingTotalLink];
     });
+  //
+  const data = { nodes, links };
+  // const label = (node): string => `${node.id}: ${node.value}`;
+  const label = ''; // TODO: add labels
 
-  const data = {
-    nodes,
-    links,
-  };
   return (
     <ResponsiveSankey
       data={data}
@@ -151,7 +103,7 @@ const EmissionsDeltaSankey: FC<EmissionsDeltaSankeyProps> = ({
       linkOpacity={0.9}
       enableLinkGradient
       labelPosition="outside"
-      label={(node) => `${node.id}: ${node.value}`}
+      label={label}
       labelTextColor="#f5f5dc"
       // theme={{
       //   fontSize: 14,
