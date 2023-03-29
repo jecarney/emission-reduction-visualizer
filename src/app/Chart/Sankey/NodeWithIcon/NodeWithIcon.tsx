@@ -1,15 +1,25 @@
 import { FC } from 'react';
 import { Layer, Rectangle } from 'recharts';
 
-import Agriculture from 'jsx:./icons/agriculture.svg';
-import Buildings from 'jsx:./icons/buildings.svg';
-import Electricity from 'jsx:./icons/electricity.svg';
-import HeavyIndustry from 'jsx:./icons/heavy-industry.svg';
-import OilAndGas from 'jsx:./icons/oil-and-gas.svg';
-import Transport from 'jsx:./icons/transport.svg';
-import WasteAndOthers from 'jsx:./icons/waste-and-others.svg';
+import AgricultureIcon from 'jsx:./icons/agriculture.svg';
+import BuildingsIcon from 'jsx:./icons/buildings.svg';
+import ElectricityIcon from 'jsx:./icons/electricity.svg';
+import HeavyIndustryIcon from 'jsx:./icons/heavy-industry.svg';
+import OilAndGasIcon from 'jsx:./icons/oil-and-gas.svg';
+import TransportIcon from 'jsx:./icons/transport.svg';
+import WasteAndOthersIcon from 'jsx:./icons/waste-and-others.svg';
 
 import { SankeyNode } from '../sankey-node.model';
+
+const icons = {
+  'oil-and-gas': OilAndGasIcon,
+  transport: TransportIcon,
+  buildings: BuildingsIcon,
+  electricity: ElectricityIcon,
+  'heavy-industry': HeavyIndustryIcon,
+  agriculture: AgricultureIcon,
+  'waste-and-others': WasteAndOthersIcon,
+};
 
 const ChooseIcon: FC<{
   payload: SankeyNode;
@@ -18,73 +28,16 @@ const ChooseIcon: FC<{
   nodeHeight: number;
 }> = ({ payload, x, y, nodeHeight }) => {
   const iconSize = 20;
-  switch (payload?.sector?.id) {
-    case 'oil-and-gas':
-      return (
-        <OilAndGas
-          height={iconSize}
-          width={iconSize}
-          x={x + 3}
-          y={y + nodeHeight / 2 - iconSize / 2}
-        />
-      );
-    case 'transport':
-      return (
-        <Transport
-          height={iconSize}
-          width={iconSize}
-          x={x + 3}
-          y={y + nodeHeight / 2 - iconSize / 2}
-        />
-      );
-    case 'buildings':
-      return (
-        <Buildings
-          height={iconSize}
-          width={iconSize}
-          x={x + 3}
-          y={y + nodeHeight / 2 - iconSize / 2}
-        />
-      );
-    case 'electricity':
-      return (
-        <Electricity
-          height={iconSize}
-          width={iconSize}
-          x={x + 3}
-          y={y + nodeHeight / 2 - iconSize / 2}
-        />
-      );
-    case 'heavy-industry':
-      return (
-        <HeavyIndustry
-          height={iconSize}
-          width={iconSize}
-          x={x + 3}
-          y={y + nodeHeight / 2 - iconSize / 2}
-        />
-      );
-    case 'agriculture':
-      return (
-        <Agriculture
-          height={iconSize}
-          width={iconSize}
-          x={x + 3}
-          y={y + nodeHeight / 2 - iconSize / 2}
-        />
-      );
-    case 'waste-and-others':
-      return (
-        <WasteAndOthers
-          height={iconSize}
-          width={iconSize}
-          x={x + 3}
-          y={y + nodeHeight / 2 - iconSize / 2}
-        />
-      );
-    default:
-      return null;
-  }
+  const IconComponent = icons[payload?.sector?.id];
+  if (!IconComponent) return null;
+  return (
+    <IconComponent
+      height={iconSize}
+      width={iconSize}
+      x={x + 3}
+      y={y + nodeHeight / 2 - iconSize / 2}
+    />
+  );
 };
 
 interface NodeWithIconProps {
