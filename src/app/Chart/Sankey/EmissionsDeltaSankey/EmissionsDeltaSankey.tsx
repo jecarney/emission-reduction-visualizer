@@ -1,6 +1,11 @@
-import { ResponsiveSankey } from '@nivo/sankey';
 import { FC } from 'react';
+import { Sankey } from 'recharts';
+
 import { ChangeFromBase } from '../../../Emissions/emission.model';
+import NodeWithIcon from '../NodeWithIcon/NodeWithIcon';
+import { SankeyData } from '../sankey-data.model';
+import { SankeyLink } from '../sankey-link.model';
+import { SankeyNode } from '../sankey-node.model';
 import './EmissionsDeltaSankey.css';
 
 interface EmissionsDeltaSankeyProps {
@@ -10,81 +15,75 @@ interface EmissionsDeltaSankeyProps {
 const EmissionsDeltaSankey: FC<EmissionsDeltaSankeyProps> = ({
   changeFromBase,
 }) => {
-  const lightBlue = '#A3C1AD';
-  const darkBlue = '#007791';
-  const reductionGreen = '#74C365';
-  const increaseRed = '#A52A2A';
-
-  const remainingTotalNode = { id: 'remaining-total', nodeColor: lightBlue };
-  const reductionTotalNode = {
-    id: 'reductions-total',
-    nodeColor: reductionGreen,
+  const colors = {
+    lightBlue: '#A3C1AD',
+    darkBlue: '#007791',
+    reductionGreen: '#74C365',
+    increaseRed: '#A52A2A',
   };
-  const increaseTotalNode = { id: 'increase-total', nodeColor: increaseRed };
 
-  let nodes = [reductionTotalNode, remainingTotalNode, increaseTotalNode];
-  let links: Array<{
-    source: string;
-    target: string;
-    value: number;
-    nodeColor: string;
-  }> = [];
+  const nodes: SankeyNode[] = [
+    { name: 'reductions-total', fill: colors.reductionGreen },
+    { name: 'remaining-total', fill: colors.lightBlue },
+    { name: 'increase-total', fill: colors.increaseRed },
+  ];
 
-  changeFromBase.changes
+  const reductionTotalIndex = nodes.findIndex(
+    (node) => node.name === 'reductions-total'
+  );
+
+  const remainingTotalIndex = nodes.findIndex(
+    (node) => node.name === 'remaining-total'
+  );
+
+  const increaseTotalNodeIndex = nodes.findIndex(
+    (node) => node.name === 'increase-total'
+  );
+
+  const links: SankeyLink[] = changeFromBase.changes
     .sort((a, b) => a.delta - b.delta)
-    .forEach(({ baseEmission, delta }) => {
+    .flatMap(({ baseEmission, delta }) => {
       const { sector } = baseEmission;
-      const emissionBySectorNode = {
-        id: `emissions-${sector.id}`,
-        nodeColor: darkBlue,
-      };
-      nodes = [...nodes, emissionBySectorNode];
 
-      const totalLink = {
-        source: emissionBySectorNode.id,
-        target: delta < 0 ? reductionTotalNode.id : increaseTotalNode.id,
-        value: Math.abs(delta),
-        nodeColor: delta < 0 ? reductionGreen : increaseRed,
+      const emissionBySectorNode: SankeyNode = {
+        name: `emissions-${sector.id}`,
+        fill: colors.darkBlue,
+        sector,
       };
-      links = [...links, totalLink];
+
+      const emissionNodeIndex = nodes.length;
+
+      nodes.push(emissionBySectorNode);
 
       const remaining = baseEmission.value + delta;
 
-      const remainingTotalLink = {
-        source: emissionBySectorNode.id,
-        target: remainingTotalNode.id,
-        value: remaining,
-        nodeColor: lightBlue,
-      };
-      links = [...links, remainingTotalLink];
+      return [
+        {
+          source: emissionNodeIndex,
+          target: delta < 0 ? reductionTotalIndex : increaseTotalNodeIndex,
+          value: Math.abs(delta),
+          color: delta < 0 ? colors.reductionGreen : colors.increaseRed,
+        },
+        {
+          source: emissionNodeIndex,
+          target: remainingTotalIndex,
+          value: remaining,
+          color: colors.lightBlue,
+        },
+      ];
     });
-  //
-  const data = { nodes, links };
-  // const label = (node): string => `#: ${node.value}`;
+
+  const data: SankeyData = { nodes, links };
 
   return (
-    <ResponsiveSankey
+    <Sankey
+      width={800}
+      height={600}
       data={data}
-      colors={(node) => node.nodeColor}
-      sort="input"
-      nodeSpacing={1}
-      nodeOpacity={1}
-      nodeBorderWidth={0}
-      nodeBorderColor="#f5f5dc"
-      nodeThickness={25}
-      nodeBorderRadius={2}
-      linkOpacity={0.9}
-      enableLinkGradient
-      label={label}
-      // labelTextColor="#f5f5dc"
-      // enableLabels
-
-      // theme={{
-      //   fontSize: 14,
-      //   textColor: 'rgba(0, 0, 0, 1)',
-      //   // background: 'rgba(0, 0, 0, 0.5)',
-      // }}
-      // linkTooltip={(node) => <span>Custom tooltip for link</span>}
+      node={<NodeWithIcon />}
+      nodeWidth={25}
+      nodePadding={5}
+      margin={{ top: 50, bottom: 50, left: 50, right: 50 }}
     />
   );
 };
