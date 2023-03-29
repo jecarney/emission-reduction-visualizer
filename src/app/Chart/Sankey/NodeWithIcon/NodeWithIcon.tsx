@@ -11,7 +11,10 @@ import WasteAndOthersIcon from 'jsx:./icons/waste-and-others.svg';
 
 import { SankeyNode } from '../sankey-node.model';
 
-const icons = {
+const icons: Record<
+  string,
+  React.FunctionComponent<React.SVGAttributes<SVGElement>>
+> = {
   'oil-and-gas': OilAndGasIcon,
   transport: TransportIcon,
   buildings: BuildingsIcon,
@@ -28,7 +31,7 @@ const ChooseIcon: FC<{
   nodeHeight: number;
 }> = ({ payload, x, y, nodeHeight }) => {
   const iconSize = 20;
-  const IconComponent = icons[payload?.sector?.id];
+  const IconComponent = icons[payload?.sector!.id];
   if (!IconComponent) return null;
   return (
     <IconComponent
