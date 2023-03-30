@@ -11,9 +11,6 @@ interface ChartLayoutProps {
 const ChartLayout: FC<ChartLayoutProps> = ({ changeFromBase, info }) => {
   const [overlayActive, setOverlayActive] = useState(false);
 
-  const handleToggle = (): void => {
-    setOverlayActive(true);
-  };
   return (
     <div className="main">
       <header className="main__info">{info}</header>
@@ -24,15 +21,26 @@ const ChartLayout: FC<ChartLayoutProps> = ({ changeFromBase, info }) => {
             overlayActive ? 'main__input--active' : ''
           }`}
         >
-          input section where we make our emissions changes
+          <p>input section where we make our emissions changes</p>
+          <button
+            type="button"
+            className="main__input__close"
+            onClick={() => {
+              setOverlayActive(false);
+            }}
+          >
+            X
+          </button>
         </section>
         <section className="main__chart-wrapper">
           <EmissionsDeltaSankey changeFromBase={changeFromBase} />
         </section>
         <button
           type="button"
-          className="main__input__toggle"
-          onClick={handleToggle}
+          className="main__input__open"
+          onClick={() => {
+            setOverlayActive(true);
+          }}
         >
           Show Info
         </button>

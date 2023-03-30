@@ -35,11 +35,18 @@
 
 .main__input--active {
   height: 100%;
+  z-index: 1;
 }
 
-.main__input__toggle {
+.main__input__open {
   flex: 0 0 50px;
   display: block;
+}
+
+.main__input__close {
+  right: 10px;
+  position: absolute;
+  top: 10px;
 }
 
 @media only screen and (min-width: 768px) {
@@ -60,7 +67,8 @@
     margin-left: 20px;
   }
 
-  .main__input__toggle {
+  .main__input__open,
+  .main__input__close {
     display: none;
   }
 }
