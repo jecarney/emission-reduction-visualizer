@@ -1,7 +1,5 @@
 import { FC, useState } from 'react';
 import { ChangeFromBase } from '../../Emissions/emission.model';
-import RadioGroup from '../../shared/components/RadioGroupFormPart/RadioGroupFormPart';
-import { ChartType } from '../chart-type.model';
 import EmissionsDeltaSankey from '../Sankey/EmissionsDeltaSankey/EmissionsDeltaSankey';
 import './ChartLayout.css';
 
@@ -10,34 +8,35 @@ interface ChartLayoutProps {
   info: string;
 }
 
-const chartTypeOptions: ChartType[] = ['possibilities', 'current'];
-
 const ChartLayout: FC<ChartLayoutProps> = ({ changeFromBase, info }) => {
-  const [chartType, setChartType] = useState<ChartType>('current');
+  const [overlayActive, setOverlayActive] = useState(false);
 
-  const onSelect = (selectedChartType: ChartType): void => {
-    setChartType(selectedChartType);
+  const handleToggle = (): void => {
+    setOverlayActive(true);
   };
-
   return (
     <div className="main">
-      <section className="main__info">{info}</section>
-      <div className="main__inputs">
-        <RadioGroup
-          onSelect={onSelect}
-          value={chartType}
-          options={chartTypeOptions}
-        />
-      </div>
-      <div className="main__chart-wrapper">
-        {chartType === 'possibilities' ? (
-          'insert possibilities updates here'
-        ) : (
+      <header className="main__info">{info}</header>
+
+      <div className="main__content">
+        <section
+          className={`main__input ${
+            overlayActive ? 'main__input--active' : ''
+          }`}
+        >
+          input section where we make our emissions changes
+        </section>
+        <section className="main__chart-wrapper">
           <EmissionsDeltaSankey changeFromBase={changeFromBase} />
-        )}
+        </section>
+        <button
+          type="button"
+          className="main__input__toggle"
+          onClick={handleToggle}
+        >
+          Show Info
+        </button>
       </div>
-      <div className="main__aside"> main aside</div>
-      <div className="main__footer">main footer</div>
     </div>
   );
 };

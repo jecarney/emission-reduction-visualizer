@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Sankey } from 'recharts';
+import { ResponsiveContainer, Sankey } from 'recharts';
 
 import { ChangeFromBase } from '../../../Emissions/emission.model';
 import NodeWithIcon from '../NodeWithIcon/NodeWithIcon';
@@ -76,15 +76,17 @@ const EmissionsDeltaSankey: FC<EmissionsDeltaSankeyProps> = ({
   const data: SankeyData = { nodes, links };
 
   return (
-    <Sankey
-      width={800}
-      height={600}
-      data={data}
-      node={<NodeWithIcon />}
-      nodeWidth={25}
-      nodePadding={5}
-      margin={{ top: 50, bottom: 50, left: 50, right: 50 }}
-    />
+    <ResponsiveContainer width="80%" height="80%">
+      <Sankey
+        width={800}
+        height={600}
+        data={data}
+        node={<NodeWithIcon />}
+        nodeWidth={25}
+        nodePadding={5}
+        margin={{ top: 50, bottom: 50, left: 50, right: 50 }}
+      />
+    </ResponsiveContainer>
   );
 };
 
