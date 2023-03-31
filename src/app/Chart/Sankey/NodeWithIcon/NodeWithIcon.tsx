@@ -59,6 +59,11 @@ const NodeWithIcon: FC<NodeWithIconProps> = ({
   payload,
 }) => {
   const isEmission = payload?.name?.startsWith('emission');
+
+  const isTotal = payload?.name?.endsWith('total');
+  const label = isTotal
+    ? payload?.name?.split('-')[0]
+    : payload?.sector?.name ?? '';
   return (
     <Layer>
       <Rectangle
@@ -66,11 +71,23 @@ const NodeWithIcon: FC<NodeWithIconProps> = ({
         y={y}
         width={width}
         height={height}
-        fill="red"
+        fill={payload.fill}
         fillOpacity="1"
       />
       {isEmission && (
         <ChooseIcon payload={payload} x={x} y={y} nodeHeight={height} />
+      )}
+      {/*  TODO: update hard-coded positioning */}
+      {!isTotal && (
+        <text x={x + 30} y={y + height / 2}>
+          {payload.value} {label}
+        </text>
+      )}
+
+      {isTotal && (
+        <text x={x - 125} y={y + height / 2}>
+          {label}: {payload.value}
+        </text>
       )}
     </Layer>
   );

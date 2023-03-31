@@ -35,7 +35,7 @@ const ChartConfig: FC = () => {
     year: 2020,
   };
 
-  const info = `Base year: 2005 (hardcoded), emission change based on year 2020 (hardcoded, needs to be possible to input)`;
+  const info = `Base year: 2005 (hardcoded), emission change based on year 2020 (hardcoded, needs to be possible to input). All values are in megatonnes`;
 
   const calculateChange = (
     baseEmissions: YearOfEmissions,

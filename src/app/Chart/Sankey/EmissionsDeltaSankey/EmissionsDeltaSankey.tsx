@@ -16,16 +16,14 @@ const EmissionsDeltaSankey: FC<EmissionsDeltaSankeyProps> = ({
   changeFromBase,
 }) => {
   const colors = {
-    lightBlue: '#A3C1AD',
-    darkBlue: '#007791',
-    reductionGreen: '#74C365',
-    increaseRed: '#A52A2A',
+    emissions: '#a9b69f',
+    reduction: '#87cefa',
   };
 
   const nodes: SankeyNode[] = [
-    { name: 'reductions-total', fill: colors.reductionGreen },
-    { name: 'remaining-total', fill: colors.lightBlue },
-    { name: 'increase-total', fill: colors.increaseRed },
+    { name: 'reductions-total', fill: colors.reduction },
+    { name: 'remaining-total', fill: colors.emissions },
+    { name: 'increase-total', fill: colors.emissions },
   ];
 
   const reductionTotalIndex = nodes.findIndex(
@@ -47,7 +45,7 @@ const EmissionsDeltaSankey: FC<EmissionsDeltaSankeyProps> = ({
 
       const emissionBySectorNode: SankeyNode = {
         name: `emissions-${sector.id}`,
-        fill: colors.darkBlue,
+        fill: colors.emissions,
         sector,
       };
 
@@ -55,20 +53,21 @@ const EmissionsDeltaSankey: FC<EmissionsDeltaSankeyProps> = ({
 
       nodes.push(emissionBySectorNode);
 
-      const remaining = baseEmission.value + delta;
+      const reduction = delta < 0 ? delta : 0;
+      const remaining = baseEmission.value + reduction;
 
       return [
         {
           source: emissionNodeIndex,
           target: delta < 0 ? reductionTotalIndex : increaseTotalNodeIndex,
           value: Math.abs(delta),
-          color: delta < 0 ? colors.reductionGreen : colors.increaseRed,
+          fill: delta < 0 ? colors.reduction : colors.emissions,
         },
         {
           source: emissionNodeIndex,
           target: remainingTotalIndex,
           value: remaining,
-          color: colors.lightBlue,
+          fill: colors.emissions,
         },
       ];
     });
