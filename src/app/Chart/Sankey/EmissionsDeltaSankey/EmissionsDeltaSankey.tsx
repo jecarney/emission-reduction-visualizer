@@ -20,7 +20,7 @@ const EmissionsDeltaSankey: FC<EmissionsDeltaSankeyProps> = ({
     reduction: '#87cefa',
   };
 
-  const nodes: SankeyNode[] = [
+  let nodes: SankeyNode[] = [
     { name: 'reductions-total', fill: colors.reduction },
     { name: 'remaining-total', fill: colors.emissions },
     { name: 'increase-total', fill: colors.emissions },
@@ -38,10 +38,17 @@ const EmissionsDeltaSankey: FC<EmissionsDeltaSankeyProps> = ({
     (node) => node.name === 'increase-total'
   );
 
-  const links: SankeyLink[] = changeFromBase.changes
+  let baseYearTotal = 0;
+  let currentYearTotal = 0;
+
+  let links: SankeyLink[] = [];
+  changeFromBase.changes
     .sort((a, b) => a.delta - b.delta)
-    .flatMap(({ baseEmission, delta }) => {
+    .forEach(({ baseEmission, delta }) => {
       const { sector } = baseEmission;
+      const baseEmissionValue = baseEmission.value;
+      baseYearTotal += baseEmissionValue;
+      currentYearTotal += baseEmissionValue + delta;
 
       const emissionBySectorNode: SankeyNode = {
         name: `emissions-${sector.id}`,
@@ -51,41 +58,52 @@ const EmissionsDeltaSankey: FC<EmissionsDeltaSankeyProps> = ({
 
       const emissionNodeIndex = nodes.length;
 
-      nodes.push(emissionBySectorNode);
+      nodes = [...nodes, emissionBySectorNode];
 
       const reduction = delta < 0 ? delta : 0;
-      const remaining = baseEmission.value + reduction;
+      const remaining = baseEmissionValue + reduction;
 
-      return [
-        {
-          source: emissionNodeIndex,
-          target: delta < 0 ? reductionTotalIndex : increaseTotalNodeIndex,
-          value: Math.abs(delta),
-          fill: delta < 0 ? colors.reduction : colors.emissions,
-        },
-        {
-          source: emissionNodeIndex,
-          target: remainingTotalIndex,
-          value: remaining,
-          fill: colors.emissions,
-        },
-      ];
+      const deltaLink = {
+        source: emissionNodeIndex,
+        target: delta < 0 ? reductionTotalIndex : increaseTotalNodeIndex,
+        value: Math.abs(delta),
+        fill: delta < 0 ? colors.reduction : colors.emissions,
+      };
+
+      const remaininglink = {
+        source: emissionNodeIndex,
+        target: remainingTotalIndex,
+        value: remaining,
+        fill: colors.emissions,
+      };
+
+      links = [...links, deltaLink, remaininglink];
     });
 
   const data: SankeyData = { nodes, links };
 
   return (
-    <ResponsiveContainer width="80%" height="80%">
-      <Sankey
-        width={800}
-        height={600}
-        data={data}
-        node={<NodeWithIcon />}
-        nodeWidth={25}
-        nodePadding={5}
-        margin={{ top: 50, bottom: 50, left: 50, right: 50 }}
-      />
-    </ResponsiveContainer>
+    <div className="sankey__wrapper">
+      <div className="sankey__totals">
+        <h2>
+          {changeFromBase.baseYear} Total : {baseYearTotal}
+        </h2>
+        <h2>
+          {changeFromBase.currentYear} Total: {currentYearTotal}
+        </h2>
+      </div>
+      <ResponsiveContainer width="80%" height="80%">
+        <Sankey
+          width={800}
+          height={600}
+          data={data}
+          node={<NodeWithIcon />}
+          nodeWidth={25}
+          nodePadding={5}
+          margin={{ top: 50, bottom: 50, left: 50, right: 50 }}
+        />
+      </ResponsiveContainer>
+    </div>
   );
 };
 
