@@ -3,8 +3,9 @@ import SECTORS from '../../../Sector/sectors.const';
 import {
   ChangeFromBase,
   EmissionChange,
-  YearOfEmissions,
+  YearOfEmissions
 } from '../../Emissions/emission.model';
+import { ReductionAction } from '../../ReductionActions/reduction-action.model';
 import ChartLayout from '../ChartLayout/ChartLayout';
 import './ChartConfig.css';
 
@@ -70,7 +71,25 @@ const ChartConfig: FC = () => {
 
   const changes = calculateChange(baseYearEmissions, currentYearEmissions);
 
-  return <ChartLayout changeFromBase={changes} info={info} />;
+  // TODO: the initial study said, "Our results show that such dietary change could reduce annual agricultural production emissions of high-income nations’ diets by 61% while sequestering as much as 98.3 (55.6–143.7) GtCO2 equivalent, equal to approximately 14 years of current global agricultural emissions until natural vegetation matures.". There are a few more ways we could allow the user to get to reductions... could allow including sequestration, could allow reducing by percentage. We could also have a slider for the number of years so we can see how the changes affect carbon emissions over time? for now, I just took calculated the 61% annual reduction, this only handles one year.
+  const actions: ReductionAction[] = [
+    {
+      sector: SECTORS.AGRICULTURE,
+      link: 'https://www.nature.com/articles/s43016-021-00431-5',
+      annualReduction: 26,
+      notes:
+        'This is a reduction in agricultural emissions, based on the study linked. The study says that a 61% reduction in agricultural emissions could be achieved by changing diets.',
+      name: 'Everyone Goes Vegan',
+    },
+  ];
+
+  return (
+    <ChartLayout
+      changeFromBase={changes}
+      info={info}
+      builtInActions={actions}
+    />
+  );
 };
 
 export default ChartConfig;

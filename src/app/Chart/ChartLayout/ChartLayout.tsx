@@ -1,15 +1,24 @@
 import { FC, useState } from 'react';
+
 import { ChangeFromBase } from '../../Emissions/emission.model';
+import { ReductionAction } from '../../ReductionActions/reduction-action.model';
+import ReductionActions from '../../ReductionActions/ReductionActions';
 import EmissionsDeltaSankey from '../Sankey/EmissionsDeltaSankey/EmissionsDeltaSankey';
 import './ChartLayout.css';
 
 interface ChartLayoutProps {
   changeFromBase: ChangeFromBase;
   info: string;
+  builtInActions: ReductionAction[];
 }
 
-const ChartLayout: FC<ChartLayoutProps> = ({ changeFromBase, info }) => {
+const ChartLayout: FC<ChartLayoutProps> = ({
+  changeFromBase,
+  info,
+  builtInActions,
+}) => {
   const [overlayActive, setOverlayActive] = useState(false);
+  const [selectedActions, setSelectedActions] = useState<ReductionAction[]>([]);
 
   return (
     <div className="main">
@@ -21,7 +30,10 @@ const ChartLayout: FC<ChartLayoutProps> = ({ changeFromBase, info }) => {
             overlayActive ? 'main__input--active' : ''
           }`}
         >
-          <p>input section where we make our emissions changes</p>
+          <ReductionActions
+            builtInActions={builtInActions}
+            onSelectedActionsChange={setSelectedActions}
+          />
           <button
             type="button"
             className="main__input__close"
@@ -33,6 +45,7 @@ const ChartLayout: FC<ChartLayoutProps> = ({ changeFromBase, info }) => {
           </button>
         </section>
         <section className="main__chart-wrapper">
+          selectedActions: {selectedActions.map((action) => action.name)}
           <EmissionsDeltaSankey changeFromBase={changeFromBase} />
         </section>
         <button
