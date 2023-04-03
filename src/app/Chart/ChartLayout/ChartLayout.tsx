@@ -10,15 +10,18 @@ interface ChartLayoutProps {
   changeFromBase: ChangeFromBase;
   info: string;
   builtInActions: ReductionAction[];
+  selectedActions: ReductionAction[];
+  onSelectedActionsChange: (actions: ReductionAction[]) => void;
 }
 
 const ChartLayout: FC<ChartLayoutProps> = ({
   changeFromBase,
   info,
   builtInActions,
+  selectedActions,
+  onSelectedActionsChange,
 }) => {
   const [overlayActive, setOverlayActive] = useState(false);
-  const [selectedActions, setSelectedActions] = useState<ReductionAction[]>([]);
 
   return (
     <div className="main">
@@ -32,7 +35,7 @@ const ChartLayout: FC<ChartLayoutProps> = ({
         >
           <ReductionActions
             builtInActions={builtInActions}
-            onSelectedActionsChange={setSelectedActions}
+            onSelectedActionsChange={onSelectedActionsChange}
           />
           <button
             type="button"
@@ -45,7 +48,6 @@ const ChartLayout: FC<ChartLayoutProps> = ({
           </button>
         </section>
         <section className="main__chart-wrapper">
-          selectedActions: {selectedActions.map((action) => action.name)}
           <EmissionsDeltaSankey changeFromBase={changeFromBase} />
         </section>
         <button
