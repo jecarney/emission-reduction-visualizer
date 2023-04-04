@@ -47,14 +47,17 @@ const ChartConfig: FC = () => {
     const possibleEmissionsBySector: EmissionBySector[] = [
       ...mostCurrentEmissionsData.emissionBySector,
     ].map((emission) => {
-      const action = reductionActions.find(
+      const reductions = reductionActions.filter(
         (selectedAction) => selectedAction.sector.id === emission.sector.id
       );
+
+      const reductionsTotal = reductions.reduce((total, reduction) => {
+        return total + reduction.annualReduction;
+      }, 0);
+
       return {
         ...emission,
-        value: action
-          ? emission.value - action.annualReduction
-          : emission.value,
+        value: emission.value - reductionsTotal,
       };
     });
 
