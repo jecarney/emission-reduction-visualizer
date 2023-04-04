@@ -35,6 +35,7 @@ const ChartLayout: FC<ChartLayoutProps> = ({
         >
           <ReductionActions
             builtInActions={builtInActions}
+            selectedActions={selectedActions}
             onSelectedActionsChange={onSelectedActionsChange}
           />
           <button

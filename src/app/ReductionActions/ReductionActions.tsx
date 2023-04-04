@@ -4,6 +4,7 @@ import './ReductionActions.css';
 
 interface ReductionActionsPickerProps {
   builtInActions: ReductionAction[];
+  selectedActions: ReductionAction[];
   onSelectedActionsChange: (actions: ReductionAction[]) => void;
 }
 
@@ -30,28 +31,40 @@ const BuiltInAction: FC<BuiltInActionProps> = ({ action, addAction }) => {
 
 const ReductionActionsPicker: FC<ReductionActionsPickerProps> = ({
   builtInActions,
+  selectedActions,
   onSelectedActionsChange,
 }) => {
-  const [selectedActions, setSelectedActions] = useState<ReductionAction[]>([]);
+  const [unconfirmedSelectedActions, setUnconfirmedSelectedActions] =
+    useState<ReductionAction[]>(selectedActions);
+
   const addAction = (newAction: ReductionAction): void => {
-    setSelectedActions([...selectedActions, newAction]);
+    setUnconfirmedSelectedActions([...unconfirmedSelectedActions, newAction]);
   };
+
   return (
     <div>
-      {builtInActions.map((action) => {
-        return (
-          <BuiltInAction
-            action={action}
-            key={action.name}
-            addAction={addAction}
-          />
-        );
-      })}
-      selected actions: {selectedActions.map((action) => action.name)}
+      {builtInActions
+        .filter((action) => {
+          return !unconfirmedSelectedActions?.some(
+            (unconfirmedAction) => unconfirmedAction.name === action.name
+          );
+        })
+        .map((action) => {
+          return (
+            <BuiltInAction
+              action={action}
+              key={action.name}
+              addAction={addAction}
+            />
+          );
+        })}
+      unconfirmedSelectedActions actions:{' '}
+      {unconfirmedSelectedActions?.map((action) => action.name)}
+      selected actions: {selectedActions?.map((action) => action.name)}
       <button
         type="button"
         onClick={() => {
-          onSelectedActionsChange(selectedActions);
+          onSelectedActionsChange(unconfirmedSelectedActions);
         }}
       >
         {' '}
