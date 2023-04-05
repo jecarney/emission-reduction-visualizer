@@ -6,4 +6,5 @@ export interface ReductionAction {
   sector: Sector;
   link: string;
   annualReduction: number;
+  id: number;
 }

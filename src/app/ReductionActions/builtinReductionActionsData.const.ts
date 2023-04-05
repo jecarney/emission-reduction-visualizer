@@ -10,6 +10,7 @@ const builtinReductionActions: ReductionAction[] = [
     notes:
       'This is a reduction in agricultural emissions, based on the study linked. The study says that a 61% reduction in agricultural emissions could be achieved by changing diets.',
     name: 'Everyone Goes Vegan',
+    id: 1,
   },
   {
     sector: SECTORS.AGRICULTURE,
@@ -18,6 +19,7 @@ const builtinReductionActions: ReductionAction[] = [
     notes:
       'Each Canadian who swaps out just one beef-based meal for a plant-based meal each week will reduce their greenhouse gas contribution by five per cent each year. If the entire country made the once-weekly swap, Canada could reduce annual greenhouse gas emissions by 30 million tonnes of CO2 – the equivalent to taking six million cars off the road.',
     name: 'Each Canadian swaps one beef-based meal per week for a plant-based meal',
+    id: 2,
   },
 ];
 
