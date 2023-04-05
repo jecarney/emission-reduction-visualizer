@@ -60,14 +60,13 @@ const ReductionActionsPicker: FC<ReductionActionsPickerProps> = ({
   }, [selectedActions]);
 
   const addAction = (newAction: ReductionAction): void => {
-    setSelectedActions([...selectedActions, newAction]);
+    setSelectedActions((previous) => [...previous, newAction]);
   };
 
   const removeAction = (removed: ReductionAction): void => {
-    const filteredActions = selectedActions.filter(
-      (selected) => selected.id !== removed.id
+    setSelectedActions((previous) =>
+      previous.filter((selected) => selected.id !== removed.id)
     );
-    setSelectedActions(filteredActions);
   };
 
   return (
