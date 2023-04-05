@@ -14,11 +14,14 @@ export interface EmissionChange {
 export interface YearOfEmissions {
   emissionBySector: EmissionBySector[];
   year?: number;
-  name?: string;
+  type: EmissionsDataType;
 }
 
 export interface ChangeFromBase {
   changes: EmissionChange[];
   baseYear?: number;
   currentYear?: number;
+  type: EmissionsDataType;
 }
+
+export type EmissionsDataType = 'currentReality' | 'possible';

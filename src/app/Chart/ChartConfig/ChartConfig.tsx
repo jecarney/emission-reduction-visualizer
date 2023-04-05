@@ -2,6 +2,7 @@ import { FC, useState } from 'react';
 import {
   ChangeFromBase,
   EmissionBySector,
+  EmissionsDataType,
   YearOfEmissions,
 } from '../../Emissions/emission.model';
 import calculateChange from '../../Emissions/emissions.helpers';
@@ -23,24 +24,13 @@ const ChartConfig: FC = () => {
   const [possibleEmissionsChartData, setPossibleEmissionsChartData] =
     useState<ChangeFromBase | null>(null);
 
-  const [activeChartType, setActiveChartType] = useState<
-    'currentReality' | 'possible'
-  >('currentReality');
+  const [activeChartType, setActiveChartType] =
+    useState<EmissionsDataType>('currentReality');
 
   const info = `Base year: 2005 (hardcoded), emission change based on year 2020 (hardcoded, needs to be possible to input). All values are in megatonnes. Include a statement saying that if users select actions with reductions based on a  year as close to the currentYear emissions (in the hardcoded example, based on 2020) and the country as possible, the results should be more accurate. Also need to explain that the purpose of the chart is to allow users to visualize actions described in various articles and studies for their own visualization purposes, can't vouch for accuracy of any built-in actions.`;
 
   const updatePossibilities = (reductionActions: ReductionAction[]): void => {
-    const changeYearNames = [
-      'Some Sunny Day',
-      'A Bright future',
-      'Happily Ever After',
-      'A New Dawn',
-      'A Better Tomorrow',
-      'Endless Possibilities',
-      'The Golden Age',
-    ];
-    const changeYearName =
-      changeYearNames[Math.floor(Math.random() * changeYearNames.length)];
+    setActiveChartType(reductionActions.length ? 'possible' : 'currentReality');
 
     const possibleEmissionsBySector: EmissionBySector[] = [
       ...mostCurrentEmissionsData.emissionBySector,
@@ -61,7 +51,7 @@ const ChartConfig: FC = () => {
 
     const possibleYearOfEmissions: YearOfEmissions = {
       emissionBySector: possibleEmissionsBySector,
-      name: changeYearName,
+      type: 'possible',
     };
 
     const possibleChartData = calculateChange(
@@ -69,7 +59,6 @@ const ChartConfig: FC = () => {
       possibleYearOfEmissions
     );
     setPossibleEmissionsChartData(possibleChartData);
-    setActiveChartType('possible');
   };
 
   return (

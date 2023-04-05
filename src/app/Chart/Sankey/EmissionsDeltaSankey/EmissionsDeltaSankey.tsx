@@ -82,14 +82,32 @@ const EmissionsDeltaSankey: FC<EmissionsDeltaSankeyProps> = ({
 
   const data: SankeyData = { nodes, links };
 
+  const changeYearNames = [
+    'Some Sunny Day',
+    'The Bright future',
+    'Happily Ever After',
+    'The New Dawn',
+    'Our Better Tomorrow',
+    'The Golden Age',
+  ];
+  const changeYearName =
+    changeYearNames[Math.floor(Math.random() * changeYearNames.length)];
+
   return (
     <div className="sankey__wrapper">
       <div className="sankey__totals">
         <h2>
-          {changeFromBase.baseYear} Total : {baseYearTotal}
+          <p>{changeFromBase.baseYear}</p>
+          <p>Total : {baseYearTotal}</p>
         </h2>
         <h2>
-          {changeFromBase.currentYear} Total: {currentYearTotal}
+          <p>
+            {' '}
+            {changeFromBase.type === 'currentReality'
+              ? changeFromBase.currentYear
+              : changeYearName}{' '}
+          </p>
+          <p>Total : {currentYearTotal}</p>
         </h2>
       </div>
       <ResponsiveContainer width="80%" height="80%">

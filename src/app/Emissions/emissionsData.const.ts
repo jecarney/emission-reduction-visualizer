@@ -12,6 +12,7 @@ export const baseYearEmissionsData: YearOfEmissions = {
     { id: 6, value: 55, sector: SECTORS.WASTE_AND_OTHERS },
   ],
   year: 2005,
+  type: 'currentReality',
 };
 
 export const mostCurrentEmissionsData: YearOfEmissions = {
@@ -25,4 +26,5 @@ export const mostCurrentEmissionsData: YearOfEmissions = {
     { id: 13, value: 50, sector: SECTORS.WASTE_AND_OTHERS },
   ],
   year: 2020,
+  type: 'currentReality',
 };

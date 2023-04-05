@@ -31,6 +31,7 @@ const calculateChange = (
     changes: emissionChanges,
     currentYear: updatedEmissions.year,
     baseYear: baseEmissions.year,
+    type: updatedEmissions.type,
   };
   return changeFromBase;
 };
