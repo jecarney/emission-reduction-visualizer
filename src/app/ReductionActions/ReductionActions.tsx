@@ -1,4 +1,5 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
+import equalListContents from '../shared/helpers/array';
 import { ReductionAction } from './reduction-action.model';
 import './ReductionActions.css';
 
@@ -53,10 +54,22 @@ const ReductionActionsPicker: FC<ReductionActionsPickerProps> = ({
   builtInActions,
   onSelectedActionsChange,
 }) => {
+  const lastSelectedActions = useRef<ReductionAction[]>([]);
+
   const [selectedActions, setSelectedActions] = useState<ReductionAction[]>([]);
 
   useEffect(() => {
-    onSelectedActionsChange(selectedActions);
+    if (
+      // this effect has lots of downstream consequences and calculations that could affect performance, we only want to trigger the function if the seleted actions have truly changed
+      !equalListContents<ReductionAction>(
+        lastSelectedActions.current,
+        selectedActions
+      )
+    ) {
+      onSelectedActionsChange(selectedActions);
+    }
+
+    lastSelectedActions.current = selectedActions;
   }, [selectedActions]);
 
   const addAction = (newAction: ReductionAction): void => {
