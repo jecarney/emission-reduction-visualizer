@@ -1,10 +1,10 @@
-import { Sector } from '../../Sector/sectors.const';
+import { Sector } from '../Sector/sectors.const';
 
 export interface ReductionAction {
   name: string;
   notes: string;
   sector: Sector;
-  link: string;
+  links: string[];
   annualReduction: number;
   id: number;
 }

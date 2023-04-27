@@ -1,4 +1,4 @@
-import { Sector } from '../../../Sector/sectors.const';
+import { Sector } from '../../Sector/sectors.const';
 
 export interface SankeyNode {
   name: string;

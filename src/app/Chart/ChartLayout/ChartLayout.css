@@ -33,6 +33,7 @@
   transition: height 0.3s ease-out;
   overflow: hidden;
   background-color: lightskyblue;
+  overflow: scroll;
 }
 
 .main__input--active {

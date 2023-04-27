@@ -1,4 +1,4 @@
-import SECTORS from '../../Sector/sectors.const';
+import SECTORS from '../Sector/sectors.const';
 import { YearOfEmissions } from './emission.model';
 
 export const baseYearEmissionsData: YearOfEmissions = {

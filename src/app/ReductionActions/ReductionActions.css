@@ -1,4 +1,4 @@
-.reductions__builtin-action {
+.reductions__action {
   border-style: outset;
   border-radius: 20px;
   border-width: 5px;
@@ -7,6 +7,6 @@
   flex-flow: column;
 }
 
-.reductions__builtin-action button {
+.reductions__action button {
   border: none;
 }

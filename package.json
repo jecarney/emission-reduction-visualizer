@@ -34,7 +34,7 @@
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
-    "@mui/material": "^5.11.6",
+    "@mui/material": "latest",
     "@react-hook/resize-observer": "^1.2.6",
     "@types/recharts": "^1.8.24",
     "eslint-plugin-react": "7.28.0",

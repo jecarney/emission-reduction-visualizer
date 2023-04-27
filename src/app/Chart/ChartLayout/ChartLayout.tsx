@@ -19,7 +19,7 @@ const ChartLayout: FC<ChartLayoutProps> = ({
   builtInActions,
   onSelectedActionsChange,
 }) => {
-  const [overlayActive, setOverlayActive] = useState(false);
+  const [overlayActive, setOverlayActive] = useState(true);
 
   return (
     <div className="main">

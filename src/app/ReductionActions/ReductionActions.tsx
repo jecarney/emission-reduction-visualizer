@@ -1,7 +1,8 @@
 import { FC, useEffect, useRef, useState } from 'react';
 import equalListContents from '../shared/helpers/array';
-import { ReductionAction } from './reduction-action.model';
+import AddAction from './AddAction/AddAction/AddAction';
 import './ReductionActions.css';
+import { ReductionAction } from './reduction-action.model';
 
 interface ReductionActionsPickerProps {
   builtInActions: ReductionAction[];
@@ -20,7 +21,7 @@ interface SelectedActionProps {
 
 const BuiltInAction: FC<BuiltInActionProps> = ({ action, addAction }) => {
   return (
-    <div className="reductions__builtin-action">
+    <div className="reductions__action">
       <button
         type="button"
         onClick={() => {
@@ -36,7 +37,7 @@ const BuiltInAction: FC<BuiltInActionProps> = ({ action, addAction }) => {
 
 const SelectedAction: FC<SelectedActionProps> = ({ action, removeAction }) => {
   return (
-    <div className="reductions__builtin-action">
+    <div className="reductions__action">
       <button
         type="button"
         onClick={() => {
@@ -57,6 +58,8 @@ const ReductionActionsPicker: FC<ReductionActionsPickerProps> = ({
   const lastSelectedActions = useRef<ReductionAction[]>([]);
 
   const [selectedActions, setSelectedActions] = useState<ReductionAction[]>([]);
+  const [customActionFormOpen, setCustomActionFormOpen] =
+    useState<boolean>(true);
 
   useEffect(() => {
     if (
@@ -84,31 +87,46 @@ const ReductionActionsPicker: FC<ReductionActionsPickerProps> = ({
 
   return (
     <div>
-      {builtInActions
-        .filter((action) => {
-          return !selectedActions?.some(
-            (selectedAction) => selectedAction.id === action.id
-          );
-        })
-        .map((action) => {
-          return (
-            <BuiltInAction
-              action={action}
-              key={action.id}
-              addAction={addAction}
-            />
-          );
-        })}
+      <div className="reductions__action">
+        <button
+          type="button"
+          onClick={() => {
+            setCustomActionFormOpen(true);
+          }}
+        >
+          Add Custom Action
+        </button>
+      </div>
+      {!customActionFormOpen && (
+        <section>
+          {builtInActions
+            .filter((action) => {
+              return !selectedActions?.some(
+                (selectedAction) => selectedAction.id === action.id
+              );
+            })
+            .map((action) => {
+              return (
+                <BuiltInAction
+                  action={action}
+                  key={action.id}
+                  addAction={addAction}
+                />
+              );
+            })}
 
-      {selectedActions?.map((action) => {
-        return (
-          <SelectedAction
-            action={action}
-            removeAction={removeAction}
-            key={action.id}
-          />
-        );
-      })}
+          {selectedActions?.map((action) => {
+            return (
+              <SelectedAction
+                action={action}
+                removeAction={removeAction}
+                key={action.id}
+              />
+            );
+          })}
+        </section>
+      )}
+      {customActionFormOpen && <AddAction />}
     </div>
   );
 };
