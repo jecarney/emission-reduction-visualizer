@@ -2,6 +2,8 @@ import {
   Button,
   FormControl,
   InputLabel,
+  ListItem,
+  ListItemText,
   MenuItem,
   Select,
   SelectChangeEvent,
@@ -31,6 +33,8 @@ const ReductionActionForm: React.FC = () => {
     annualReduction: '',
   });
 
+  const [currentLink, setCurrentLink] = useState<string>('');
+
   const handleChange = (
     event:
       | SelectChangeEvent<Sector>
@@ -40,6 +44,25 @@ const ReductionActionForm: React.FC = () => {
     if (name) {
       setValues((prevValues) => ({ ...prevValues, [name]: value }));
     }
+  };
+
+  // QUESTION: is this kind of wrapper really always necessary?
+  const updateCurrentLink = (
+    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ): void => {
+    const { value } = event.target;
+    setCurrentLink(value);
+  };
+
+  const addLink = (): void => {
+    if (!currentLink) return;
+
+    setValues((prevValues) => ({
+      ...prevValues,
+      links: [...prevValues.links, currentLink],
+    }));
+
+    setCurrentLink('');
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
@@ -55,13 +78,6 @@ const ReductionActionForm: React.FC = () => {
         label="Name"
         name="name"
         value={values.name}
-        onChange={handleChange}
-        fullWidth
-      />
-      <TextField
-        label="Notes"
-        name="notes"
-        value={values.notes}
         onChange={handleChange}
         fullWidth
       />
@@ -90,7 +106,35 @@ const ReductionActionForm: React.FC = () => {
         onChange={handleChange}
         fullWidth
       />
-      <Button type="submit">Submit</Button>
+      <TextField
+        label="Links"
+        name="links"
+        value={currentLink}
+        onChange={updateCurrentLink}
+        fullWidth
+      />
+
+      {values.links.map((link) => (
+        <ListItem disablePadding>
+          <ListItemText primary={link} />
+        </ListItem>
+      ))}
+
+      <Button type="button" onClick={addLink}>
+        Add Link
+      </Button>
+
+      <TextField
+        label="Notes"
+        name="notes"
+        value={values.notes}
+        onChange={handleChange}
+        fullWidth
+      />
+
+      <Button type="submit" variant="contained">
+        Submit
+      </Button>
     </form>
   );
 };
