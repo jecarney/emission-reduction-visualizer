@@ -2,7 +2,7 @@ import SECTORS from '../Sector/sectors.const';
 import { ReductionAction } from './reduction-action.model';
 
 // TODO: the initial study said, "Our results show that such dietary change could reduce annual agricultural production emissions of high-income nations’ diets by 61% while sequestering as much as 98.3 (55.6–143.7) GtCO2 equivalent, equal to approximately 14 years of current global agricultural emissions until natural vegetation matures.". There are a few more ways we could allow the user to get to reductions... could allow including sequestration, could allow reducing by percentage. We could also have a slider for the number of years so we can see how the changes affect carbon emissions over time? for now, I just took calculated the 61% annual reduction, this only handles one year. Probably even better as a first step would be to have a slider for percentage of population... so you can adjust what percent of a population doing a given thing would make a difference.
-const builtinReductionActions: ReductionAction[] = [
+const reductionActions: ReductionAction[] = [
   {
     sector: SECTORS.AGRICULTURE,
     links: ['https://www.nature.com/articles/s43016-021-00431-5'],
@@ -67,4 +67,4 @@ const builtinReductionActions: ReductionAction[] = [
   },
 ];
 
-export default builtinReductionActions;
+export default reductionActions;

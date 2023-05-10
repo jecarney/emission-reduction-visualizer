@@ -9,14 +9,14 @@ import './ChartLayout.css';
 interface ChartLayoutProps {
   changeFromBase: ChangeFromBase;
   info: string;
-  builtInActions: ReductionAction[];
+  builtinActions: ReductionAction[];
   onSelectedActionsChange: (actions: ReductionAction[]) => void;
 }
 
 const ChartLayout: FC<ChartLayoutProps> = ({
   changeFromBase,
   info,
-  builtInActions,
+  builtinActions,
   onSelectedActionsChange,
 }) => {
   const [overlayActive, setOverlayActive] = useState(true);
@@ -32,7 +32,7 @@ const ChartLayout: FC<ChartLayoutProps> = ({
           }`}
         >
           <ReductionActions
-            builtInActions={builtInActions}
+            builtinActions={builtinActions}
             onSelectedActionsChange={onSelectedActionsChange}
           />
           <button

@@ -5,11 +5,11 @@ import './ReductionActions.css';
 import { ReductionAction } from './reduction-action.model';
 
 interface ReductionActionsPickerProps {
-  builtInActions: ReductionAction[];
+  actions: ReductionAction[];
   onSelectedActionsChange: (actions: ReductionAction[]) => void;
 }
 
-interface BuiltInActionProps {
+interface ActionProps {
   action: ReductionAction;
   addAction: (action: ReductionAction) => void;
 }
@@ -19,7 +19,7 @@ interface SelectedActionProps {
   removeAction: (action: ReductionAction) => void;
 }
 
-const BuiltInAction: FC<BuiltInActionProps> = ({ action, addAction }) => {
+const Action: FC<ActionProps> = ({ action, addAction }) => {
   return (
     <div className="reductions__action">
       <button
@@ -52,7 +52,7 @@ const SelectedAction: FC<SelectedActionProps> = ({ action, removeAction }) => {
 };
 
 const ReductionActionsPicker: FC<ReductionActionsPickerProps> = ({
-  builtInActions,
+  actions,
   onSelectedActionsChange,
 }) => {
   const lastSelectedActions = useRef<ReductionAction[]>([]);
@@ -99,7 +99,7 @@ const ReductionActionsPicker: FC<ReductionActionsPickerProps> = ({
       </div>
       {!customActionFormOpen && (
         <section>
-          {builtInActions
+          {actions
             .filter((action) => {
               return !selectedActions?.some(
                 (selectedAction) => selectedAction.id === action.id
@@ -107,11 +107,7 @@ const ReductionActionsPicker: FC<ReductionActionsPickerProps> = ({
             })
             .map((action) => {
               return (
-                <BuiltInAction
-                  action={action}
-                  key={action.id}
-                  addAction={addAction}
-                />
+                <Action action={action} key={action.id} addAction={addAction} />
               );
             })}
 
