@@ -10,8 +10,8 @@ import {
   TextField,
 } from '@mui/material';
 
-import React, { useState } from 'react';
-import SECTORS, { Sector } from '../../../Sector/sectors.const';
+import React, { FC, useState } from 'react';
+import SECTORS, { Sector } from '../../Sector/sectors.const';
 import './AddAction.css';
 
 export interface NewReductionAction {
@@ -22,7 +22,23 @@ export interface NewReductionAction {
   annualReduction: number | '';
 }
 
-const ReductionActionForm: React.FC = () => {
+export interface SubmittedReductionAction {
+  name: string;
+  notes: string;
+  sector: Sector;
+  links: string[];
+  annualReduction: number;
+}
+
+interface ReductionActionFormProps {
+  addAction: (newAction: SubmittedReductionAction) => void;
+  closeAddAction: () => void;
+}
+
+const ReductionActionForm: FC<ReductionActionFormProps> = ({
+  addAction,
+  closeAddAction,
+}) => {
   const sectorlist = Object.values(SECTORS);
 
   const [values, setValues] = useState<NewReductionAction>({
@@ -67,8 +83,10 @@ const ReductionActionForm: React.FC = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
-    console.log('submitting', values);
-    // handle form submission here
+    const newAction: SubmittedReductionAction =
+      values as SubmittedReductionAction;
+    addAction(newAction);
+    closeAddAction();
   };
 
   return (
@@ -115,7 +133,7 @@ const ReductionActionForm: React.FC = () => {
       />
 
       {values.links.map((link) => (
-        <ListItem disablePadding>
+        <ListItem disablePadding key={link}>
           <ListItemText primary={link} />
         </ListItem>
       ))}

@@ -1,129 +1,163 @@
-import { FC, useEffect, useRef, useState } from 'react';
-import equalListContents from '../shared/helpers/array';
-import AddAction from './AddAction/AddAction/AddAction';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
+// QUESTION: does parcel handle tree-shaking for named imports, or should I update them to improve performance?
+import {
+  Button,
+  CardContent,
+  Collapse,
+  Container,
+  Divider,
+  IconButton,
+} from '@mui/material';
+import Card from '@mui/material/Card';
+import { FC, useState } from 'react';
+import AddAction, { SubmittedReductionAction } from './AddAction/AddAction';
 import './ReductionActions.css';
 import { ReductionAction } from './reduction-action.model';
 
+interface ActionProps {
+  action: ReductionAction;
+  interaction: (action: ReductionAction) => void;
+}
+
+const Action: FC<ActionProps> = ({ action, interaction }) => {
+  const [showNotes, setShowNotes] = useState(false);
+  const variant: string = action.isSelected ? 'selected' : 'outlined';
+
+  return (
+    <Card variant={variant}>
+      <CardContent>
+        <Button
+          type="button"
+          variant={variant}
+          onClick={() => {
+            interaction(action);
+          }}
+        >
+          {action.name}
+        </Button>
+        <Collapse in={showNotes}>
+          <p>{action.notes}</p>
+        </Collapse>
+        <IconButton
+          onClick={() => {
+            setShowNotes(!showNotes);
+          }}
+        >
+          {showNotes ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+        </IconButton>
+      </CardContent>
+    </Card>
+  );
+};
+
 interface ReductionActionsPickerProps {
-  actions: ReductionAction[];
+  builtinActions: ReductionAction[];
   onSelectedActionsChange: (actions: ReductionAction[]) => void;
 }
 
-interface ActionProps {
-  action: ReductionAction;
-  addAction: (action: ReductionAction) => void;
-}
-
-interface SelectedActionProps {
-  action: ReductionAction;
-  removeAction: (action: ReductionAction) => void;
-}
-
-const Action: FC<ActionProps> = ({ action, addAction }) => {
-  return (
-    <div className="reductions__action">
-      <button
-        type="button"
-        onClick={() => {
-          addAction(action);
-        }}
-      >
-        {action.name}
-      </button>
-      <p>{action.notes}</p>
-    </div>
-  );
-};
-
-const SelectedAction: FC<SelectedActionProps> = ({ action, removeAction }) => {
-  return (
-    <div className="reductions__action">
-      <button
-        type="button"
-        onClick={() => {
-          removeAction(action);
-        }}
-      >
-        Remove Action
-      </button>
-      {action.name}
-    </div>
-  );
-};
-
 const ReductionActionsPicker: FC<ReductionActionsPickerProps> = ({
-  actions,
+  builtinActions,
   onSelectedActionsChange,
 }) => {
-  const lastSelectedActions = useRef<ReductionAction[]>([]);
+  const [actions, setActions] = useState<ReductionAction[]>(builtinActions);
 
-  const [selectedActions, setSelectedActions] = useState<ReductionAction[]>([]);
   const [customActionFormOpen, setCustomActionFormOpen] =
-    useState<boolean>(true);
+    useState<boolean>(false);
 
-  useEffect(() => {
-    if (
-      // this effect has lots of downstream consequences and calculations that could affect performance, we only want to trigger the function if the seleted actions have truly changed
-      !equalListContents<ReductionAction>(
-        lastSelectedActions.current,
-        selectedActions
-      )
-    ) {
-      onSelectedActionsChange(selectedActions);
-    }
+  const toggleActionIsSelected = (
+    newAction: ReductionAction,
+    isSelected: boolean
+  ): void => {
+    const updatedActions = actions.map((action) => {
+      return action.id === newAction.id ? { ...action, isSelected } : action;
+    });
 
-    lastSelectedActions.current = selectedActions;
-  }, [selectedActions]);
+    setActions(updatedActions);
 
-  const addAction = (newAction: ReductionAction): void => {
-    setSelectedActions((previous) => [...previous, newAction]);
+    const selectedActions = updatedActions.filter((action) => {
+      return action.isSelected;
+    });
+    onSelectedActionsChange(selectedActions);
   };
 
-  const removeAction = (removed: ReductionAction): void => {
-    setSelectedActions((previous) =>
-      previous.filter((selected) => selected.id !== removed.id)
-    );
+  const addAction = (newAction: SubmittedReductionAction): void => {
+    const nextId =
+      actions.reduce((highestId, action) => {
+        return action.id > highestId ? action.id : highestId;
+      }, 0) + 1;
+
+    const newActionWithId: ReductionAction = { ...newAction, id: nextId };
+
+    setActions((previous) => [...previous, newActionWithId]);
   };
 
   return (
-    <div>
-      <div className="reductions__action">
-        <button
-          type="button"
-          onClick={() => {
-            setCustomActionFormOpen(true);
-          }}
-        >
-          Add Custom Action
-        </button>
-      </div>
+    <>
       {!customActionFormOpen && (
-        <section>
+        <Container>
+          <Button
+            type="button"
+            onClick={() => {
+              setCustomActionFormOpen(true);
+            }}
+            variant="contained"
+            sx={{ marginTop: '15x' }}
+          >
+            Add Custom Action
+          </Button>
+          {actions.some((action) => action.isSelected) && (
+            <>
+              <Divider />
+              <h3>selected: </h3>
+              {actions
+                .filter((action) => {
+                  return action.isSelected;
+                })
+                .map((action) => {
+                  return (
+                    <Action
+                      action={action}
+                      key={action.id}
+                      interaction={(actionToToggle: ReductionAction) => {
+                        toggleActionIsSelected(actionToToggle, false);
+                      }}
+                    />
+                  );
+                })}
+            </>
+          )}
+
+          <Divider />
+          <h3>possible actions: </h3>
           {actions
             .filter((action) => {
-              return !selectedActions?.some(
-                (selectedAction) => selectedAction.id === action.id
-              );
+              return !action.isSelected;
             })
-            .map((action) => {
+            ?.map((action) => {
               return (
-                <Action action={action} key={action.id} addAction={addAction} />
+                <Action
+                  action={action}
+                  interaction={(actionToToggle: ReductionAction) => {
+                    toggleActionIsSelected(actionToToggle, true);
+                  }}
+                  key={action.id}
+                />
               );
             })}
-
-          {selectedActions?.map((action) => {
-            return (
-              <SelectedAction
-                action={action}
-                removeAction={removeAction}
-                key={action.id}
-              />
-            );
-          })}
-        </section>
+        </Container>
       )}
-      {customActionFormOpen && <AddAction />}
-    </div>
+
+      {customActionFormOpen && (
+        <AddAction
+          addAction={addAction}
+          closeAddAction={() => {
+            setCustomActionFormOpen(false);
+          }}
+        />
+      )}
+    </>
   );
 };
 

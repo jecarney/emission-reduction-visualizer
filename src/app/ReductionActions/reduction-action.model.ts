@@ -7,4 +7,5 @@ export interface ReductionAction {
   links: string[];
   annualReduction: number;
   id: number;
+  isSelected?: boolean;
 }
