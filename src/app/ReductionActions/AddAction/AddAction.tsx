@@ -132,7 +132,7 @@ const ReductionActionForm: FC<ReductionActionFormProps> = ({
               fullWidth
             >
               {sectorlist.map((sector) => (
-                <MenuItem key={sector.id} value={sector.name}>
+                <MenuItem key={sector.id} value={sector}>
                   {sector.name}
                 </MenuItem>
               ))}
