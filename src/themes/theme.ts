@@ -1,83 +1,79 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { createTheme } from '@mui/material/styles';
 
-const theme = {
+const globalTheme = createTheme({
+  typography: {
+    fontFamily: 'courier, monospace',
+  },
   palette: {
+    primary: {
+      main: '#aaaaaa',
+      light: '#ffffff',
+    },
+    secondary: {
+      main: '#ffffff',
+      dark: '#776464',
+    },
     text: {
-      primary: '#007791',
-      light: '#f5f5dc',
+      primary: '#6B8D8B',
+      secondary: '#aaaaaa',
     },
     background: {
-      default: '#f5f5dc',
+      default: '#ffffff',
     },
   },
-  components: {
-    MuiButton: {
-      variants: [
-        {
-          props: { variant: 'selected' },
-          style: {
-            color: '#f5f5dc',
-            border: '1px solid #f5f5dc',
+});
+
+const theme = createTheme(
+  createTheme({
+    components: {
+      MuiButton: {
+        styleOverrides: {
+          root: {
+            margin: '10px 5px 0 5px',
           },
         },
-        {
-          props: { variant: 'outlined' },
-          style: {
-            color: '#56A0CA',
+        variants: [
+          {
+            props: { variant: 'contained' },
+            style: { color: globalTheme.palette.primary.light },
+          },
+          {
+            props: { variant: 'outlined' },
+            style: {
+              color: globalTheme.palette.text.primary,
+              '&:hover': {
+                backgroundColor: globalTheme.palette.secondary.dark,
+                color: globalTheme.palette.secondary.main,
+              },
+            },
+          },
+          {
+            props: { variant: 'selected' },
+            style: {
+              backgroundColor: globalTheme.palette.primary.dark,
+              color: globalTheme.palette.secondary.main,
+              '&:hover': {
+                backgroundColor: globalTheme.palette.primary.main,
+                color: globalTheme.palette.secondary.main,
+              },
+            },
+          },
+        ],
+      },
+      MuiContainer: {
+        styleOverrides: {
+          root: {
+            display: 'flex',
+            flexDirection: 'column',
+            textAlign: 'center',
           },
         },
-      ],
-    },
-    MuiContainer: {
-      styleOverrides: {
-        root: {
-          display: 'flex',
-          flexDirection: 'column',
-          textAlign: 'center',
-        },
       },
     },
-    MuiCard: {
-      styleOverrides: {
-        root: {
-          margin: '5px 0',
-        },
-      },
-      variants: [
-        {
-          props: { variant: 'selected' },
-          style: {
-            backgroundColor: '#56A0CA',
-            color: '#f5f5dc',
-          },
-        },
-      ],
-    },
-    MuiCardContent: {
-      styleOverrides: {
-        root: {
-          display: 'flex',
-          flexDirection: 'column',
-        },
-      },
-    },
-    MuiDivider: {
-      styleOverrides: {
-        root: {
-          margin: '15px 0',
-        },
-      },
-    },
-  },
-} as const;
+  }),
+  globalTheme
+);
 
-type CustomTheme = {
-  [Key in keyof typeof theme]: (typeof theme)[Key];
-};
-
-declare module '@mui/material/styles' {
-  interface Theme extends CustomTheme {}
-  interface ThemeOptions extends CustomTheme {}
-}
-
-export default createTheme(theme);
+export default theme;

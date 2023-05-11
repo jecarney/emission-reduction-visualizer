@@ -1,9 +1,11 @@
-import { FC, useState } from 'react';
+import { Box, Divider } from '@mui/material';
+import { FC } from 'react';
 
 import { ChangeFromBase } from '../../Emissions/emission.model';
-import { ReductionAction } from '../../ReductionActions/reduction-action.model';
 import ReductionActions from '../../ReductionActions/ReductionActions';
+import { ReductionAction } from '../../ReductionActions/reduction-action.model';
 import EmissionsDeltaSankey from '../Sankey/EmissionsDeltaSankey/EmissionsDeltaSankey';
+
 import './ChartLayout.css';
 
 interface ChartLayoutProps {
@@ -19,45 +21,46 @@ const ChartLayout: FC<ChartLayoutProps> = ({
   builtinActions,
   onSelectedActionsChange,
 }) => {
-  const [overlayActive, setOverlayActive] = useState(true);
-
   return (
     <div className="main">
-      <header className="main__info">{info}</header>
+      <ReductionActions
+        builtinActions={builtinActions}
+        onSelectedActionsChange={onSelectedActionsChange}
+      />
+      <Divider sx={{ margin: '20px 0', width: '90%' }} />
 
-      <div className="main__content">
-        <section
-          className={`main__input ${
-            overlayActive ? 'main__input--active' : ''
-          }`}
-        >
-          <ReductionActions
-            builtinActions={builtinActions}
-            onSelectedActionsChange={onSelectedActionsChange}
-          />
-          <button
-            type="button"
-            className="main__input__close"
-            onClick={() => {
-              setOverlayActive(false);
-            }}
-          >
-            X
-          </button>
-        </section>
-        <section className="main__chart-wrapper">
-          <EmissionsDeltaSankey changeFromBase={changeFromBase} />
-        </section>
-        <button
-          type="button"
-          className="main__input__open"
-          onClick={() => {
-            setOverlayActive(true);
+      <section className="main__chart-wrapper">
+        <EmissionsDeltaSankey changeFromBase={changeFromBase} />
+      </section>
+      <section>
+        <Box
+          sx={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            display: 'flex',
           }}
         >
-          Show Info
-        </button>
-      </div>
+          {/* <h2>
+            {changeFromBase.baseYear} total : {baseYearTotal}
+          </h2>
+          <h2>
+            {' '}
+            {changeFromBase.type === 'currentReality'
+              ? `${changeFromBase.currentYear} total : ${currentYearTotal}`
+              : `possible total : ${currentYearTotal}`}
+          </h2> */}
+          <h2>{changeFromBase.baseYear} total :</h2>
+          <h2>
+            {' '}
+            {changeFromBase.type === 'currentReality'
+              ? `${changeFromBase.currentYear} total : `
+              : `possible total : `}
+          </h2>
+        </Box>
+        <p>
+          {info} {info}
+        </p>
+      </section>
     </div>
   );
 };

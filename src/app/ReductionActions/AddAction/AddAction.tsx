@@ -1,12 +1,16 @@
+import CloseIcon from '@mui/icons-material/Close';
 import {
   Button,
+  Container,
   FormControl,
+  IconButton,
   InputLabel,
   ListItem,
   ListItemText,
   MenuItem,
   Select,
   SelectChangeEvent,
+  Stack,
   TextField,
 } from '@mui/material';
 
@@ -31,11 +35,13 @@ export interface SubmittedReductionAction {
 }
 
 interface ReductionActionFormProps {
+  overlayOpen: boolean;
   addAction: (newAction: SubmittedReductionAction) => void;
   closeAddAction: () => void;
 }
 
 const ReductionActionForm: FC<ReductionActionFormProps> = ({
+  overlayOpen,
   addAction,
   closeAddAction,
 }) => {
@@ -62,7 +68,6 @@ const ReductionActionForm: FC<ReductionActionFormProps> = ({
     }
   };
 
-  // QUESTION: is this kind of wrapper really always necessary?
   const updateCurrentLink = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ): void => {
@@ -90,70 +95,92 @@ const ReductionActionForm: FC<ReductionActionFormProps> = ({
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <TextField
-        required
-        label="Name"
-        name="name"
-        value={values.name}
-        onChange={handleChange}
-        fullWidth
-      />
-      {/* automatic label animation doesn't work without FormControl wrapper */}
-      <FormControl required className="dropdown" style={{ display: 'block' }}>
-        <InputLabel>Sector</InputLabel>
-        <Select
-          name="sector"
-          value={values.sector}
-          onChange={handleChange}
-          fullWidth
-        >
-          {sectorlist.map((sector) => (
-            <MenuItem key={sector.id} value={sector.name}>
-              {sector.name}
-            </MenuItem>
+    <div className={`overlay overlay--${overlayOpen ? 'open' : 'closed'}`}>
+      <Container
+        sx={{
+          color: 'text.primary',
+          width: '90%',
+          padding: 0,
+          display: overlayOpen ? 'flex' : 'none',
+        }}
+      >
+        <div className="close-button">
+          <IconButton onClick={closeAddAction}>
+            <CloseIcon />
+          </IconButton>
+        </div>
+        <form onSubmit={handleSubmit}>
+          <TextField
+            required
+            label="Name"
+            name="name"
+            value={values.name}
+            onChange={handleChange}
+            fullWidth
+          />
+          {/* automatic label animation doesn't work without FormControl wrapper */}
+          <FormControl
+            required
+            className="dropdown"
+            style={{ display: 'block' }}
+          >
+            <InputLabel>Sector</InputLabel>
+            <Select
+              name="sector"
+              value={values.sector}
+              onChange={handleChange}
+              fullWidth
+            >
+              {sectorlist.map((sector) => (
+                <MenuItem key={sector.id} value={sector.name}>
+                  {sector.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <TextField
+            required
+            label="Annual Reduction"
+            name="annualReduction"
+            type="number"
+            value={values.annualReduction}
+            onChange={handleChange}
+            fullWidth
+          />
+          <Stack direction="row" spacing={2} sx={{ width: '100%' }}>
+            <TextField
+              label="Links"
+              name="links"
+              value={currentLink}
+              onChange={updateCurrentLink}
+              fullWidth
+            />
+
+            <Button variant="outlined" onClick={addLink} sx={{ width: '10%' }}>
+              Add Link
+            </Button>
+          </Stack>
+
+          {values.links.map((link) => (
+            <ListItem disablePadding key={link}>
+              <ListItemText primary={link} />
+            </ListItem>
           ))}
-        </Select>
-      </FormControl>
-      <TextField
-        required
-        label="Annual Reduction"
-        name="annualReduction"
-        type="number"
-        value={values.annualReduction}
-        onChange={handleChange}
-        fullWidth
-      />
-      <TextField
-        label="Links"
-        name="links"
-        value={currentLink}
-        onChange={updateCurrentLink}
-        fullWidth
-      />
 
-      {values.links.map((link) => (
-        <ListItem disablePadding key={link}>
-          <ListItemText primary={link} />
-        </ListItem>
-      ))}
+          <TextField
+            label="Notes"
+            name="notes"
+            value={values.notes}
+            onChange={handleChange}
+            fullWidth
+          />
 
-      <Button type="button" onClick={addLink}>
-        Add Link
-      </Button>
-
-      <TextField
-        label="Notes"
-        name="notes"
-        value={values.notes}
-        onChange={handleChange}
-        fullWidth
-      />
-
-      <Button type="submit" variant="contained">
-        Submit
-      </Button>
-    </form>
+          <Button type="submit" variant="contained">
+            Submit
+          </Button>
+        </form>
+      </Container>
+    </div>
   );
 };
 

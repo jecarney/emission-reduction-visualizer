@@ -1,0 +1,17 @@
+.reduction-actions {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+}
+
+.reduction-actions__tags {
+  margin-bottom: 50px;
+}
+
+.reduction-actions__tags--fade {
+  -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+}
