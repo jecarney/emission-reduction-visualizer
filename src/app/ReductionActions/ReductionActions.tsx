@@ -23,6 +23,7 @@ const Action: FC<ActionProps> = ({ action, interaction }) => {
       onClick={() => {
         interaction(action);
       }}
+      sx={{ borderColor: action.sector.color }}
     >
       {action.name}
     </Button>
