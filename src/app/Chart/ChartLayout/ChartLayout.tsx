@@ -27,7 +27,7 @@ const ChartLayout: FC<ChartLayoutProps> = ({
         builtinActions={builtinActions}
         onSelectedActionsChange={onSelectedActionsChange}
       />
-      <Divider sx={{ margin: '20px 0', width: '90%' }} />
+      <Divider sx={{ margin: '15px 0', width: '90%' }} />
 
       <section className="main__chart-wrapper">
         <EmissionsDeltaSankey changeFromBase={changeFromBase} />

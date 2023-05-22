@@ -81,57 +81,57 @@ const ReductionActionsPicker: FC<ReductionActionsPickerProps> = ({
   return (
     <>
       <section className="reduction-actions">
-        <div
-          className={`reduction-actions__tags reduction-actions__tags--${
-            tagsExpanded || height < minimumTagsHeight ? 'expanded' : 'fade'
-          }`}
-        >
-          <Collapse in={tagsExpanded} collapsedSize={minimumTagsHeight}>
-            <div
-              className="reduction-actions__tags__fullheight"
-              ref={tagsHoldRef}
-            >
-              {actions.map((action) => {
-                return (
-                  <Action
-                    action={action}
-                    interaction={(actionToToggle: ReductionAction) => {
-                      updateActionIsSelected(
-                        actionToToggle,
-                        !action.isSelected
-                      );
-                    }}
-                    key={action.id}
-                  />
-                );
-              })}
-            </div>
-          </Collapse>
-        </div>
-        {height > minimumTagsHeight && (
-          <IconButton
-            onClick={() => {
-              setTagsExpanded(!tagsExpanded);
-            }}
+        <div className="reduction-actions__tags">
+          <div
+            className={`reduction-actions__tags___expandable reduction-actions__tags___expandable--${
+              tagsExpanded || height < minimumTagsHeight ? 'expanded' : 'fade'
+            }`}
           >
-            {tagsExpanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-          </IconButton>
-        )}
-        <Button
-          type="button"
-          onClick={() => {
-            setCustomActionFormOpen(true);
-          }}
-          variant="contained"
-          sx={{
-            position: 'absolute',
-            right: '20px',
-            margin: 0,
-            bottom: '0px',
-          }}
-        >
-          Add Custom Action
-        </Button>
+            <Collapse in={tagsExpanded} collapsedSize={minimumTagsHeight}>
+              <div
+                className="reduction-actions__tags__fullheight"
+                ref={tagsHoldRef}
+              >
+                {actions.map((action) => {
+                  return (
+                    <Action
+                      action={action}
+                      interaction={(actionToToggle: ReductionAction) => {
+                        updateActionIsSelected(
+                          actionToToggle,
+                          !action.isSelected
+                        );
+                      }}
+                      key={action.id}
+                    />
+                  );
+                })}
+              </div>
+            </Collapse>
+          </div>
+        </div>
+        <div className="reduction-actions__edit">
+          <Button
+            type="button"
+            onClick={() => {
+              setCustomActionFormOpen(true);
+            }}
+            variant="contained"
+          >
+            Add Custom Action
+          </Button>
+        </div>
+        <div className="reduction-actions__expand-button">
+          {height > minimumTagsHeight && (
+            <IconButton
+              onClick={() => {
+                setTagsExpanded(!tagsExpanded);
+              }}
+            >
+              {tagsExpanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+            </IconButton>
+          )}
+        </div>
       </section>
       <AddAction
         addAction={addAction}

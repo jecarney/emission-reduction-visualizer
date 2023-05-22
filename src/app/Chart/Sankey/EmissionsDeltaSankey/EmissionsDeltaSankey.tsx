@@ -91,7 +91,6 @@ const EmissionsDeltaSankey: FC<EmissionsDeltaSankeyProps> = ({
         node={<NodeWithIcon />}
         nodeWidth={25}
         nodePadding={5}
-        margin={{ top: 50, bottom: 50, left: 50, right: 50 }}
       />
     </ResponsiveContainer>
   );
