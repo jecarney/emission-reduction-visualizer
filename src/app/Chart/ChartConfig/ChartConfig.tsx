@@ -27,7 +27,7 @@ const ChartConfig: FC = () => {
   const [activeChartType, setActiveChartType] =
     useState<EmissionsDataType>('currentReality');
 
-  const info = `Base year: 2005 (hardcoded), emission change based on year 2020 (hardcoded, needs to be possible to input). All values are in megatonnes. Include a statement saying that if users select actions with reductions based on a  year as close to the currentYear emissions (in the hardcoded example, based on 2020) and the country as possible, the results should be more accurate. Also need to explain that the purpose of the chart is to allow users to visualize actions described in various articles and studies for their own visualization purposes, can't vouch for accuracy of any built-in actions.`;
+  const info = `Visualize how carbon reduction actions can help Canada reach its emissions reduction target of 40% below 2005 levels by 2030. The chart shows base year emissions by sector on the left side and 2020 emissions levels by sector on the right side. Press the ‘Take Action’ button to see how different actions could affect our reduction progress and further reduce emissions. Add an action using the ‘Add Action’ button.  `;
 
   const updatePossibilities = (selectedActions: ReductionAction[]): void => {
     setActiveChartType(selectedActions.length ? 'possible' : 'currentReality');

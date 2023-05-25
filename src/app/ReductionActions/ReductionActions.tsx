@@ -81,6 +81,12 @@ const ReductionActionsPicker: FC<ReductionActionsPickerProps> = ({
   return (
     <>
       <section className="reduction-actions">
+        <p>
+          Please read the info next to the reduction action checkboxes to see
+          the rationale behind the reductions included with the visualizer.
+          Carbon reduction is complex and uncertain! That's OK, it's still worth
+          trying to figure out as best we can.
+        </p>
         <div className="reduction-actions__tags">
           <div
             className={`reduction-actions__tags___expandable reduction-actions__tags___expandable--${

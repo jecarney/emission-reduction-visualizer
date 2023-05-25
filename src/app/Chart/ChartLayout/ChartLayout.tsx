@@ -1,8 +1,7 @@
-import { Box, Divider } from '@mui/material';
+import { Divider } from '@mui/material';
 import { FC } from 'react';
 
 import { ChangeFromBase } from '../../Emissions/emission.model';
-import ReductionActions from '../../ReductionActions/ReductionActions';
 import { ReductionAction } from '../../ReductionActions/reduction-action.model';
 import EmissionsDeltaSankey from '../Sankey/EmissionsDeltaSankey/EmissionsDeltaSankey';
 
@@ -23,24 +22,22 @@ const ChartLayout: FC<ChartLayoutProps> = ({
 }) => {
   return (
     <div className="main">
-      <ReductionActions
-        builtinActions={builtinActions}
-        onSelectedActionsChange={onSelectedActionsChange}
-      />
+      <h1>Emission Reduction Visualizer</h1>
+      <section>
+        <p>{info}</p>
+      </section>
       <Divider sx={{ margin: '15px 0', width: '90%' }} />
 
       <section className="main__chart-wrapper">
-        <EmissionsDeltaSankey changeFromBase={changeFromBase} />
-      </section>
-      <section>
-        <Box
+        {/* <Box
           sx={{
             flexDirection: 'row',
             justifyContent: 'space-between',
             display: 'flex',
           }}
         >
-          {/* <h2>
+        
+          <h2>
             {changeFromBase.baseYear} total : {baseYearTotal}
           </h2>
           <h2>
@@ -48,18 +45,9 @@ const ChartLayout: FC<ChartLayoutProps> = ({
             {changeFromBase.type === 'currentReality'
               ? `${changeFromBase.currentYear} total : ${currentYearTotal}`
               : `possible total : ${currentYearTotal}`}
-          </h2> */}
-          <h2>{changeFromBase.baseYear} total :</h2>
-          <h2>
-            {' '}
-            {changeFromBase.type === 'currentReality'
-              ? `${changeFromBase.currentYear} total : `
-              : `possible total : `}
-          </h2>
-        </Box>
-        <p>
-          {info} {info}
-        </p>
+          </h2> 
+         </Box>  */}
+        <EmissionsDeltaSankey changeFromBase={changeFromBase} />
       </section>
     </div>
   );
