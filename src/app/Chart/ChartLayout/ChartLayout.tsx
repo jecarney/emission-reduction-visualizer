@@ -29,24 +29,6 @@ const ChartLayout: FC<ChartLayoutProps> = ({
       <Divider sx={{ margin: '15px 0', width: '90%' }} />
 
       <section className="main__chart-wrapper">
-        {/* <Box
-          sx={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            display: 'flex',
-          }}
-        >
-        
-          <h2>
-            {changeFromBase.baseYear} total : {baseYearTotal}
-          </h2>
-          <h2>
-            {' '}
-            {changeFromBase.type === 'currentReality'
-              ? `${changeFromBase.currentYear} total : ${currentYearTotal}`
-              : `possible total : ${currentYearTotal}`}
-          </h2> 
-         </Box>  */}
         <EmissionsDeltaSankey changeFromBase={changeFromBase} />
       </section>
     </div>

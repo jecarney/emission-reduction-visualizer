@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { ResponsiveContainer, Sankey } from 'recharts';
 
+import { Box } from '@mui/material';
 import { ChangeFromBase } from '../../../Emissions/emission.model';
 import NodeWithIcon from '../NodeWithIcon/NodeWithIcon';
 import { SankeyData } from '../sankey-data.model';
@@ -83,16 +84,24 @@ const EmissionsDeltaSankey: FC<EmissionsDeltaSankeyProps> = ({
   const data: SankeyData = { nodes, links };
 
   return (
-    <ResponsiveContainer width="100%" height="100%">
-      <Sankey
-        width={800}
-        height={600}
-        data={data}
-        node={<NodeWithIcon />}
-        nodeWidth={25}
-        nodePadding={5}
-      />
-    </ResponsiveContainer>
+    <Box
+      width="100%"
+      height="100%"
+      sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}
+    >
+      <p>2005 : 999 mt CO2</p>
+      <ResponsiveContainer width="100%" height="100%">
+        <Sankey
+          width={800}
+          height={600}
+          data={data}
+          node={<NodeWithIcon />}
+          nodeWidth={25}
+          nodePadding={5}
+        />
+      </ResponsiveContainer>
+      <p>2020 : 999 mt CO2</p>
+    </Box>
   );
 };
 
