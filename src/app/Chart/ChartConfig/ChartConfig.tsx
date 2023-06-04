@@ -27,7 +27,7 @@ const ChartConfig: FC = () => {
   const [activeChartType, setActiveChartType] =
     useState<EmissionsDataType>('currentReality');
 
-  const info = `Visualize how carbon reduction actions can help Canada reach its emissions reduction target of 40% below 2005 levels by 2030. The chart shows base year emissions by sector on the left side and 2020 emissions levels by sector on the right side. Press the ‘Take Action’ button to see how different actions could affect our reduction progress and further reduce emissions. Add an action using the ‘Add Action’ button.  `;
+  const info = `See how we can reduce Canada's carbon emissions! The chart shows base year emissions by sector on the left, and 2020 emissions levels on the right. Press the ‘Take Action’ button to select actions. Add an action using the ‘Add Action’ button. `;
 
   const updatePossibilities = (selectedActions: ReductionAction[]): void => {
     setActiveChartType(selectedActions.length ? 'possible' : 'currentReality');

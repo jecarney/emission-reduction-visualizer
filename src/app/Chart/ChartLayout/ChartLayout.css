@@ -7,23 +7,39 @@
   padding: 5%;
 }
 
-.main__chart-wrapper {
+.main__content {
+  width: 90vw;
+  min-height: 90vw;
+  max-width: 1200px;
+}
+
+.main__content__actions {
   width: 100%;
-  min-height: 450px;
+  display: flex;
+  place-content: space-between space-around;
+  height: 40px;
+  padding: 10px 0;
+  margin: 10px 0;
+}
+
+.main__content__chart-wrapper {
+  width: 90%;
+  height: 90%;
+  margin: 0 auto;
 }
 
 @media (min-width: 600px) {
   .main {
     padding: 25px;
   }
-  .main__chart-wrapper {
-    width: 100vw;
-    height: 40vw;
+
+  .main__content__chart-wrapper {
+    height: 95%;
   }
 }
 
-@media (min-width: 801px) {
-  .main__chart-wrapper {
-    width: 50%;
+@media (min-width: 1020px) {
+  .main__content {
+    min-height: 20vw;
   }
 }

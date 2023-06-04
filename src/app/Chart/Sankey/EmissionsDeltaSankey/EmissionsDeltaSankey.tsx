@@ -89,7 +89,6 @@ const EmissionsDeltaSankey: FC<EmissionsDeltaSankeyProps> = ({
       height="100%"
       sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}
     >
-      <p>2005 : 999 mt CO2</p>
       <ResponsiveContainer width="100%" height="100%">
         <Sankey
           width={800}
@@ -100,7 +99,6 @@ const EmissionsDeltaSankey: FC<EmissionsDeltaSankeyProps> = ({
           nodePadding={5}
         />
       </ResponsiveContainer>
-      <p>2020 : 999 mt CO2</p>
     </Box>
   );
 };

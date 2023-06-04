@@ -4,7 +4,7 @@ import { createTheme } from '@mui/material/styles';
 
 const globalTheme = createTheme({
   typography: {
-    fontFamily: 'courier, monospace',
+    fontFamily: 'system-ui',
   },
   palette: {
     primary: {
@@ -29,11 +29,6 @@ const theme = createTheme(
   createTheme({
     components: {
       MuiButton: {
-        styleOverrides: {
-          root: {
-            margin: '10px 5px 0 5px',
-          },
-        },
         variants: [
           {
             props: { variant: 'contained' },

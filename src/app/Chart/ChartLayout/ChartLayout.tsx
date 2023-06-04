@@ -1,4 +1,4 @@
-import { Divider } from '@mui/material';
+import { Button, Divider } from '@mui/material';
 import { FC } from 'react';
 
 import { ChangeFromBase } from '../../Emissions/emission.model';
@@ -28,9 +28,16 @@ const ChartLayout: FC<ChartLayoutProps> = ({
       </section>
       <Divider sx={{ margin: '15px 0', width: '90%' }} />
 
-      <section className="main__chart-wrapper">
-        <EmissionsDeltaSankey changeFromBase={changeFromBase} />
-      </section>
+      <div className="main__content">
+        <section className="main__content__actions">
+          <Button variant="outlined">Take Action</Button>
+          <Button variant="outlined">Add Action</Button>
+        </section>
+
+        <section className="main__content__chart-wrapper">
+          <EmissionsDeltaSankey changeFromBase={changeFromBase} />
+        </section>
+      </div>
     </div>
   );
 };
