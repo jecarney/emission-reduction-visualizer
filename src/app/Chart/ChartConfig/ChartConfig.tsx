@@ -1,4 +1,6 @@
 import { FC, useState } from 'react';
+import { Action } from '../../Actions/action.model';
+import actionsData from '../../Actions/actionsData.const';
 import {
   ChangeFromBase,
   EmissionBySector,
@@ -10,8 +12,6 @@ import {
   baseYearEmissionsData,
   mostCurrentEmissionsData,
 } from '../../Emissions/emissionsData.const';
-import { ReductionAction } from '../../ReductionActions/reduction-action.model';
-import reductionActions from '../../ReductionActions/reductionActionsData.const';
 import ChartLayout from '../ChartLayout/ChartLayout';
 import './ChartConfig.css';
 
@@ -29,7 +29,7 @@ const ChartConfig: FC = () => {
 
   const info = `See how we can reduce Canada's carbon emissions! The chart shows base year emissions by sector on the left, and 2020 emissions levels on the right. Press the ‘Take Action’ button to select actions. Add an action using the ‘Add Action’ button. `;
 
-  const updatePossibilities = (selectedActions: ReductionAction[]): void => {
+  const updatePossibilities = (selectedActions: Action[]): void => {
     setActiveChartType(selectedActions.length ? 'possible' : 'currentReality');
 
     const possibleEmissionsBySector: EmissionBySector[] = [
@@ -69,7 +69,7 @@ const ChartConfig: FC = () => {
           : realEmissionsChartData
       }
       info={info}
-      builtinActions={reductionActions}
+      builtinActions={actionsData}
       onSelectedActionsChange={updatePossibilities}
     />
   );

@@ -1,17 +1,18 @@
 import { Button, Divider } from '@mui/material';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 
+import { Action } from '../../Actions/action.model';
 import { ChangeFromBase } from '../../Emissions/emission.model';
-import { ReductionAction } from '../../ReductionActions/reduction-action.model';
 import EmissionsDeltaSankey from '../Sankey/EmissionsDeltaSankey/EmissionsDeltaSankey';
 
+import Actions, { Overlay } from '../../Actions/Actions';
 import './ChartLayout.css';
 
 interface ChartLayoutProps {
   changeFromBase: ChangeFromBase;
   info: string;
-  builtinActions: ReductionAction[];
-  onSelectedActionsChange: (actions: ReductionAction[]) => void;
+  builtinActions: Action[];
+  onSelectedActionsChange: (actions: Action[]) => void;
 }
 
 const ChartLayout: FC<ChartLayoutProps> = ({
@@ -20,6 +21,12 @@ const ChartLayout: FC<ChartLayoutProps> = ({
   builtinActions,
   onSelectedActionsChange,
 }) => {
+  const [overlay, setOverlay] = useState<Overlay>(null);
+
+  const closeAction = (): void => {
+    setOverlay(null);
+  };
+
   return (
     <div className="main">
       <h1>Emission Reduction Visualizer</h1>
@@ -30,13 +37,33 @@ const ChartLayout: FC<ChartLayoutProps> = ({
 
       <div className="main__content">
         <section className="main__content__actions">
-          <Button variant="outlined">Take Action</Button>
-          <Button variant="outlined">Add Action</Button>
+          <Button
+            variant="outlined"
+            onClick={() => {
+              setOverlay('takeAction');
+            }}
+          >
+            Take Action
+          </Button>
+          <Button
+            variant="outlined"
+            onClick={() => {
+              setOverlay('addAction');
+            }}
+          >
+            Add Action
+          </Button>
         </section>
 
         <section className="main__content__chart-wrapper">
           <EmissionsDeltaSankey changeFromBase={changeFromBase} />
         </section>
+        <Actions
+          builtinActions={builtinActions}
+          onSelectedActionsChange={onSelectedActionsChange}
+          overlay={overlay}
+          closeAction={closeAction}
+        />
       </div>
     </div>
   );
