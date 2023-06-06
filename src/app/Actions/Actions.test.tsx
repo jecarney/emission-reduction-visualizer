@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import AddAction from './AddAction';
+import ActionsPicker from './Actions';
 
 it('It should mount', () => {
   const div = document.createElement('div');
-  ReactDOM.render(<AddAction />, div);
+  ReactDOM.render(<ActionsPicker />, div);
   ReactDOM.unmountComponentAtNode(div);
 });

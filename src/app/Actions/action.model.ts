@@ -1,6 +1,6 @@
 import { Sector } from '../Sector/sectors.const';
 
-export interface ReductionAction {
+export interface Action {
   name: string;
   notes: string;
   sector: Sector;
