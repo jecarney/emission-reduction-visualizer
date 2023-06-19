@@ -66,6 +66,15 @@ const theme = createTheme(
           },
         },
       },
+      MuiFormControlLabel: {
+        styleOverrides: {
+          root: {
+            display: 'block',
+            width: '100%',
+            textAlign: 'left',
+          },
+        },
+      },
     },
   }),
   globalTheme
