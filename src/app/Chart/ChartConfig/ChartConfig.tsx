@@ -1,6 +1,5 @@
 import { FC, useState } from 'react';
 import { Action } from '../../Actions/action.model';
-import actionsData from '../../Actions/actionsData.const';
 import {
   ChangeFromBase,
   EmissionBySector,
@@ -12,7 +11,7 @@ import {
   baseYearEmissionsData,
   mostCurrentEmissionsData,
 } from '../../Emissions/emissionsData.const';
-import ChartLayout from '../ChartLayout/ChartLayout';
+import TempMap from '../../TempMap';
 import './ChartConfig.css';
 
 const ChartConfig: FC = () => {
@@ -62,16 +61,17 @@ const ChartConfig: FC = () => {
   };
 
   return (
-    <ChartLayout
-      changeFromBase={
-        activeChartType === 'possible' && possibleEmissionsChartData
-          ? possibleEmissionsChartData
-          : realEmissionsChartData
-      }
-      info={info}
-      builtinActions={actionsData}
-      onSelectedActionsChange={updatePossibilities}
-    />
+    <TempMap />
+    // <ChartLayout
+    //   changeFromBase={
+    //     activeChartType === 'possible' && possibleEmissionsChartData
+    //       ? possibleEmissionsChartData
+    //       : realEmissionsChartData
+    //   }
+    //   info={info}
+    //   builtinActions={actionsData}
+    //   onSelectedActionsChange={updatePossibilities}
+    // />
   );
 };
 
