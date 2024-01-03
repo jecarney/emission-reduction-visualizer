@@ -49,11 +49,11 @@ const terrain = new TileLayer({
   maxZoom: 19,
   tileSize: 256,
   pickable: true,
-  onHover: (pickinginfo) => {
-    if (pickinginfo.bitmap) {
-      console.log('hover on TileLayer:', pickinginfo);
-    }
-  },
+  // onHover: (pickinginfo) => {
+  //   if (pickinginfo.bitmap) {
+  //     console.log('hover on TileLayer:', pickinginfo);
+  //   }
+  // },
 
   renderSubLayers: (props) => {
     const {
@@ -82,13 +82,23 @@ const TempMap: FC = () => {
       initialViewState={INITIAL_VIEW_STATE}
       controller={true}
       layers={layers}
-      getTooltip={({ object }) => {
-        console.log('tooltip', object);
-        return object && object.message;
+      getTooltip={(pickinginfo) => {
+        // console.log('tooltip', pickinginfo);
+        const [red, green, blue, opacity] = pickinginfo.color ?? [];
+        //(red * 256 + green + blue / 256) - 32768
+
+        const height =
+          red && green && blue ? red * 256 + green + blue / 256 - 32768 : 0;
+        console.log('height', height);
+        return {
+          html: `<p style={{ width: '200px', height: '200px' }}>
+              Hi I'm bob ${height}
+            </p>`,
+        };
       }}
-      onClick={({ object }) => {
-        console.log('click', object);
-      }}
+      // onClick={({ object }) => {
+      //   console.log('click', object);
+      // }}
     >
       <Map
         mapboxAccessToken={
